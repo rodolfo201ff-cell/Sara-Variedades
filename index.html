@@ -1,12 +1,146 @@
 <!DOCTYPE html>
-<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sara Variedades - Belém PA</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,Arial;background:#fff5f7}.top{background:#111;color:#fff;display:flex;gap:12px;align-items:center;padding:12px 16px;flex-wrap:wrap;position:sticky;top:0;z-index:9}.logo{font-weight:800}.sch{flex:1;max-width:500px;background:#222;border-radius:999px;padding:8px 14px;display:flex;gap:8px}.sch input{flex:1;background:transparent;border:0;color:#fff;outline:none}.hero{background:linear-gradient(90deg,#ff0c6b,#ff5a5a);color:#fff;padding:18px 20px;display:flex;justify-content:space-between;align-items:center}.cats{display:flex;gap:8px;overflow:auto;padding:12px 16px}.cat{padding:8px 14px;border-radius:999px;border:2px solid #eee;background:#fff;font-weight:700;white-space:nowrap;cursor:pointer}.cat.a{background:#ff2d78;color:#fff;border-color:#ff2d78}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px;padding:10px 16px}.card{background:#fff;border-radius:12px;border:1px solid #ffd6de;overflow:hidden}.card-top{height:120px;display:grid;place-items:center;background:#fff0f3;font-size:48px;position:relative}.tag{position:absolute;top:6px;left:6px;background:#ff2d78;color:#fff;font-size:10px;padding:3px 6px;border-radius:999px}.card-b{padding:8px 10px}.price{color:#ff2d78;font-weight:800}.btn{background:#ff2d78;color:#fff;border:0;padding:7px;border-radius:8px;font-weight:800;width:100%;margin-top:6px;cursor:pointer}.badge{position:relative;cursor:pointer}.bc{position:absolute;top:-6px;right:-6px;background:#ff2d78;color:#fff;width:18px;height:18px;border-radius:999px;display:grid;place-items:center;font-size:11px}.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;place-items:center;z-index:20}.modal.o{display:grid}.sheet{background:#fff;padding:14px;border-radius:12px;width:min(420px,92vw)}</style></head><body>
-<div class="top"><div class="logo">⚡ Sara Variedades - Belém PA</div><div class="sch">🔍<input id="q" placeholder="Buscar 312 produtos..."></div><div>📍 Belém - PA</div><div class="badge" onclick="tog()"><span style="font-size:22px">🛒</span><b class="bc" id="cc">0</b></div></div>
-<div class="hero"><div><h1 style="font-size:36px">Tudo para sua casa</h1><p>Elétricos, utilidades e lar - entrega rápida em Belém</p></div><div style="font-size:54px">🍳🔧💡</div></div>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sara Variedades - Belem PA</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial;background:#fff5f7}
+.top{background:#111;color:#fff;display:flex;gap:10px;align-items:center;padding:12px 16px;position:sticky;top:0;z-index:9;flex-wrap:wrap}
+.logo{font-weight:800}
+.sch{flex:1;max-width:500px;background:#222;border-radius:999px;padding:8px 14px;display:flex;gap:8px}
+.sch input{flex:1;background:transparent;border:0;color:#fff;outline:none}
+.hero{background:linear-gradient(90deg,#ff0c6b,#ff5a5a);color:#fff;padding:18px 20px;display:flex;justify-content:space-between;align-items:center}
+.cats{display:flex;gap:8px;overflow:auto;padding:12px 16px}
+.cat{padding:8px 14px;border-radius:999px;border:2px solid #eee;background:#fff;font-weight:700;white-space:nowrap;cursor:pointer}
+.cat.a{background:#ff2d78;color:#fff;border-color:#ff2d78}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;padding:10px 16px}
+.card{background:#fff;border-radius:12px;border:1px solid #ffd6de;overflow:hidden}
+.card-top{height:100px;display:grid;place-items:center;background:#fff0f3;font-size:20px;font-weight:800}
+.card-b{padding:8px 10px}
+.price{color:#ff2d78;font-weight:800}
+.btn{background:#ff2d78;color:#fff;border:0;padding:8px;border-radius:8px;font-weight:800;width:100%;margin-top:6px;cursor:pointer}
+.badge{position:relative;cursor:pointer}
+.bc{position:absolute;top:-6px;right:-6px;background:#ff2d78;color:#fff;width:18px;height:18px;border-radius:999px;display:grid;place-items:center;font-size:11px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;place-items:center;z-index:20}
+.modal.o{display:grid}
+.sheet{background:#fff;padding:14px;border-radius:12px;width:min(420px,92vw)}
+.tag{position:absolute;top:6px;left:6px;background:#ff2d78;color:#fff;font-size:10px;padding:3px 6px;border-radius:999px}
+</style>
+</head>
+<body>
+<div class="top">
+<div class="logo">Sara Variedades - Belem PA</div>
+<div class="sch"><input id="q" placeholder="Buscar..."></div>
+<div class="badge" onclick="tog()"><span>CARRINHO</span> <b class="bc" id="cc">0</b></div>
+</div>
+<div class="hero"><div><h1>Tudo para sua casa</h1><p>Eletricos e utilidades - Belem PA</p></div></div>
 <div class="cats" id="cats"></div>
-<div style="padding:10px 16px;display:flex;justify-content:space-between;font-weight:800"><span id="tit"></span><span style="color:#ff2d78;cursor:pointer" onclick="act='Todos';render()">Ver todos →</span></div>
+<div style="padding:10px 16px;display:flex;justify-content:space-between;font-weight:800"><span id="tit"></span><span style="color:#ff2d78;cursor:pointer" onclick="act='Todos';render()">Ver todos</span></div>
 <div id="cnt" style="padding:0 16px;font-size:12px;color:#888"></div>
 <div class="grid" id="grid"></div>
-<footer style="text-align:center;padding:12px;color:#888;font-size:11px">Sara Variedades © 2024 Belém PA - WhatsApp (91) 99999-8888</footer>
 <div class="modal" id="modal"><div class="sheet"><div style="display:flex;justify-content:space-between"><h3>Carrinho</h3><button onclick="tog()">X</button></div><div id="list" style="margin:10px 0;display:grid;gap:6px"></div><div style="display:flex;justify-content:space-between;font-weight:800"><span>Total</span><span id="tot">R$ 0</span></div><button class="btn" onclick="zap()">Finalizar no WhatsApp</button></div></div>
 <script>
-const RAW=["Extensão Elétrica 5m|Elétricos|117.5|101.17|65|⚡","Extensão 10m|Elétricos|35.99||79|⚡","Filtro de Linha 5 Tomadas|Elétricos|102|87.29|26|⚡","Filtro de Linha 3 Tomadas|Elétricos|272.5|203.48|68|⚡","Adaptador Universal|Elétricos|175.5|123.12|53|⚡","Adaptador T Triplo|Elétricos|73.99||64|⚡","Tomada Inteligente WiFi|Elétricos|204.9|152.43|59|⚡","Interruptor Inteligente|Elétricos|258.5||55|⚡","Lâmpada Inteligente RGB|Elétricos|149||22|⚡","Plugue Macho 10A|Elétricos|103.5||13|⚡","Plugue Fêmea 10A|Elétricos|67.9|54.1|75|⚡","Cabo Flexível 2,5mm 10m|Elétricos|278.99||40|⚡","Fita Isolante 10m|Elétricos|64.5|51.18|58|⚡","Canaleta 20mm 2m|Elétricos|120.5||67|⚡","Quadro Distribuição 8 Disj|Elétricos|232.5|208.52|18|⚡","Disjuntor 20A|Elétricos|229.5||44|⚡","Disjuntor 25A|Elétricos|227.5|186.26|28|⚡","Campainha Sem Fio|Elétricos|231.5|176.11|33|⚡","Sensor de Presença|Elétricos|29||75|⚡","Relé Fotoelétrico|Elétricos|23.5||12|⚡","Chuveiro 5500W|Elétricos|77.99||12|⚡","Resistência Chuveiro|Elétricos|177.99|127.49|45|⚡","Torneira Elétrica|Elétricos|42.99|34.34|37|⚡","Boia Elétrica|Elétricos|62.99||41|⚡","Multímetro Digital|Elétricos|113.5|101.6|69|⚡","Alicate Amperímetro|Elétricos|241|213.71|9|⚡","Ferro de Solda 40W|Elétricos|232.99|188.4|13|⚡","Estação de Solda|Elétricos|221.99||55|⚡","Carregador USB 4 Portas|Elétricos|77.5|59.61|8|⚡","Cabo USB-C 2m|Elétricos|236||19|⚡","Cabo HDMI 3m|Elétricos|185||36|⚡","Cabo de Rede 20m|Elétricos|201.99||70|⚡","Antena Digital Interna|Elétricos|184||10|⚡","Controle Universal TV|Elétricos|42.5||34|⚡","Pilhas AA C/4|Elétricos|142.9||66|⚡","Pilhas AAA C/4|Elétricos|239||66|⚡","Bateria 9V|Elétricos|135.5||7|⚡","Carregador de Pilhas|Elétricos|212.5||66|⚡","Inversor 12V p/ 110V|Elétricos|179||48|⚡","Estabilizador 500VA|Elétricos|166.99||36|⚡","Nobreak 600VA|Elétricos|110.5|86.19|62|⚡","Ventilador de Teto|Elétricos|66.5||6|⚡","Ventilador de Mesa 40cm|Elétricos|127||63|⚡","Ventilador Parede 50cm|Elétricos|127.9||58|⚡","Exaustor Banheiro|Elétricos|238|202.24|57|⚡","Motor de Portão|Elétricos|186.9|140.78|72|⚡","Lâmpada LED 9W|Iluminação|217.5||42|💡","Lâmpada LED 12W|Iluminação|112.9||20|💡","Lâmpada LED 15W|Iluminação|111||74|💡","Lâmpada Bulbo 20W|Iluminação|273.5||40|💡","Lâmpada Filamento LED|Iluminação|161.5|119.25|37|💡","Spot LED Quadrado|Iluminação|142.99|104.42|61|💡","Spot LED Redondo|Iluminação|165.99|125.61|20|💡","Painel LED 18W Quad|Iluminação|126||6|💡","Painel LED 24W Red|Iluminação|268.5||36|💡","Fita LED 5m RGB|Iluminação|23||52|💡","Fita LED 5m Branco|Iluminação|222.99|175.94|37|💡","Controlador Fita LED|Iluminação|130.99|114.32|29|💡","Luminária Emergência 30 LEDs|Iluminação|208.9||65|💡","Luminária Emergência 60 LEDs|Iluminação|183.5|138.03|25|💡","Refletor LED 50W|Iluminação|149.99|123.75|63|💡","Refletor LED 100W|Iluminação|36.9||55|💡","Refletor 200W c/ Sensor|Iluminação|278.99||25|💡","Arandela Externa|Iluminação|111.5|99.25|65|💡","Poste Balizador Solar|Iluminação|161.5||53|💡","Luminária Solar Parede|Iluminação|31.5|28.66|10|💡","Pisca Pisca 100 Leds|Iluminação|113.5||28|💡","Pisca Pisca Solar|Iluminação|195.99|173.97|67|💡","Cordão de Luz 10m|Iluminação|267||37|💡","Abajur Tecido|Iluminação|270.99||29|💡","Abajur Madeira|Iluminação|237.9|196.37|28|💡","Pendente Industrial|Iluminação|128.5|100.09|31|💡","Pendente Corda|Iluminação|118||52|💡","Lustre Cristal 3 Braços|Iluminação|53||30|💡","Trilho Spot 3 Lâmpadas|Iluminação|27.5||61|💡","Luminária Articulada Mesa|Iluminação|50||12|💡","Luminária de Chão|Iluminação|156.5|110.5|70|💡","Lanterna Recarregável|Iluminação|229.99||29|💡","Lanterna de Cabeça|Iluminação|200.99|177.79|62|💡","Lampião LED|Iluminação|194.9|151.87|64|💡","Luz Noturna Sensor|Iluminação|115|87.37|9|💡","Lâmpada Espiral|Iluminação|117.5|87.27|51|💡","Soquete Porcelana E27|Iluminação|158|135.44|23|💡","Soquete com Rabicho|Iluminação|159.5||62|💡","Bocal com Sensor|Iluminação|243.9|215.59|13|💡","Dimmer Rotativo|Iluminação|143.9|114.73|52|💡","Dimmer Touch|Iluminação|103.5|86.98|65|💡","Perfil LED 1m|Iluminação|206.99||71|💡","Perfil LED 2m|Iluminação|90.9||61|💡","Tubo LED T8 18W|Iluminação|234||66|💡","Plafon LED 36W|Iluminação|218.5||52|💡","Vassoura Nylon|Utilidades|53.5||27|🧹","Rodo 40cm|Utilidades|264.9|237.1|56|🧹","Rodo 60cm|Utilidades|237.9|192.86|5|🧹","Pá de Lixo Cabo Longo|Utilidades|18.5||6|🧹","Balde 15L|Utilidades|174.99|148.56|39|🧹","Balde 20L com Esfregão|Utilidades|47|41.39|16|🧹","Mop Giratório 360|Utilidades|79|58.89|33|🧹","Escova Sanitária|Utilidades|26.99||39|🧹","Lixeira Pedal 12L Inox|Utilidades|229|179.72|78|🧹","Lixeira Pedal 20L|Utilidades|104.9|79.93|72|🧹","Lixeira Pedal 50L|Utilidades|128|90.7|25|🧹","Cesto Roupa 
+const DATA=[
+{n:"Extensão Elétrica 5m",c:"Elétricos",p:117.5,o:101.17,v:65},
+{n:"Extensão 10m",c:"Elétricos",p:35.99,o:null,v:79},
+{n:"Filtro de Linha 5 Tomadas",c:"Elétricos",p:102,o:87.29,v:26},
+{n:"Filtro de Linha 3 Tomadas",c:"Elétricos",p:272.5,o:203.48,v:68},
+{n:"Adaptador Universal",c:"Elétricos",p:175.5,o:123.12,v:53},
+{n:"Adaptador T Triplo",c:"Elétricos",p:73.99,o:null,v:64},
+{n:"Tomada Inteligente WiFi",c:"Elétricos",p:204.9,o:152.43,v:59},
+{n:"Interruptor Inteligente",c:"Elétricos",p:258.5,o:null,v:55},
+{n:"Lâmpada Inteligente RGB",c:"Elétricos",p:149,o:null,v:22},
+{n:"Plugue Macho 10A",c:"Elétricos",p:103.5,o:null,v:13},
+{n:"Plugue Fêmea 10A",c:"Elétricos",p:67.9,o:54.1,v:75},
+{n:"Cabo Flexível 2,5mm 10m",c:"Elétricos",p:278.99,o:null,v:40},
+{n:"Fita Isolante 10m",c:"Elétricos",p:64.5,o:51.18,v:58},
+{n:"Canaleta 20mm 2m",c:"Elétricos",p:120.5,o:null,v:67},
+{n:"Quadro Distribuição 8 Disj",c:"Elétricos",p:232.5,o:208.52,v:18},
+{n:"Disjuntor 20A",c:"Elétricos",p:229.5,o:null,v:44},
+{n:"Disjuntor 25A",c:"Elétricos",p:227.5,o:186.26,v:28},
+{n:"Campainha Sem Fio",c:"Elétricos",p:231.5,o:176.11,v:33},
+{n:"Sensor de Presença",c:"Elétricos",p:29,o:null,v:75},
+{n:"Relé Fotoelétrico",c:"Elétricos",p:23.5,o:null,v:12},
+{n:"Chuveiro 5500W",c:"Elétricos",p:77.99,o:null,v:12},
+{n:"Resistência Chuveiro",c:"Elétricos",p:177.99,o:127.49,v:45},
+{n:"Torneira Elétrica",c:"Elétricos",p:42.99,o:34.34,v:37},
+{n:"Boia Elétrica",c:"Elétricos",p:62.99,o:null,v:41},
+{n:"Multímetro Digital",c:"Elétricos",p:113.5,o:101.6,v:69},
+{n:"Alicate Amperímetro",c:"Elétricos",p:241,o:213.71,v:9},
+{n:"Ferro de Solda 40W",c:"Elétricos",p:232.99,o:188.4,v:13},
+{n:"Estação de Solda",c:"Elétricos",p:221.99,o:null,v:55},
+{n:"Carregador USB 4 Portas",c:"Elétricos",p:77.5,o:59.61,v:8},
+{n:"Cabo USB-C 2m",c:"Elétricos",p:236,o:null,v:19},
+{n:"Cabo HDMI 3m",c:"Elétricos",p:185,o:null,v:36},
+{n:"Cabo de Rede 20m",c:"Elétricos",p:201.99,o:null,v:70},
+{n:"Antena Digital Interna",c:"Elétricos",p:184,o:null,v:10},
+{n:"Controle Universal TV",c:"Elétricos",p:42.5,o:null,v:34},
+{n:"Pilhas AA C/4",c:"Elétricos",p:142.9,o:null,v:66},
+{n:"Pilhas AAA C/4",c:"Elétricos",p:239,o:null,v:66},
+{n:"Bateria 9V",c:"Elétricos",p:135.5,o:null,v:7},
+{n:"Carregador de Pilhas",c:"Elétricos",p:212.5,o:null,v:66},
+{n:"Inversor 12V p/ 110V",c:"Elétricos",p:179,o:null,v:48},
+{n:"Estabilizador 500VA",c:"Elétricos",p:166.99,o:null,v:36},
+{n:"Nobreak 600VA",c:"Elétricos",p:110.5,o:86.19,v:62},
+{n:"Ventilador de Teto",c:"Elétricos",p:66.5,o:null,v:6},
+{n:"Ventilador de Mesa 40cm",c:"Elétricos",p:127,o:null,v:63},
+{n:"Ventilador Parede 50cm",c:"Elétricos",p:127.9,o:null,v:58},
+{n:"Exaustor Banheiro",c:"Elétricos",p:238,o:202.24,v:57},
+{n:"Motor de Portão",c:"Elétricos",p:186.9,o:140.78,v:72},
+{n:"Lâmpada LED 9W",c:"Iluminação",p:217.5,o:null,v:42},
+{n:"Lâmpada LED 12W",c:"Iluminação",p:112.9,o:null,v:20},
+{n:"Lâmpada LED 15W",c:"Iluminação",p:111,o:null,v:74},
+{n:"Vassoura Nylon",c:"Utilidades",p:53.5,o:null,v:27},
+{n:"Rodo 40cm",c:"Utilidades",p:264.9,o:237.1,v:56},
+{n:"Balde 15L",c:"Utilidades",p:174.99,o:148.56,v:39},
+{n:"Jogo de Facas 5 Peças",c:"Cozinha",p:24.5,o:20.12,v:9},
+{n:"Faca Chef 8p",c:"Cozinha",p:133.5,o:null,v:69},
+{n:"Tábua de Corte Bambu",c:"Cozinha",p:77,o:68.17,v:37},
+{n:"Sapateira 12 Pares",c:"Organização",p:132.5,o:null,v:24},
+{n:"Organizador Gaveta C/8",c:"Organização",p:52,o:null,v:7},
+{n:"Kit Banheiro 5p Inox",c:"Banheiro",p:83.5,o:null,v:78},
+{n:"Dispenser Sabonete",c:"Banheiro",p:232,o:null,v:64},
+{n:"Quadro Decorativo C/3",c:"Decoração",p:127.9,o:null,v:55},
+{n:"Vaso Cerâmica Grande",c:"Decoração",p:145.5,o:null,v:38}
+];
+const CATS=["Elétricos","Iluminação","Utilidades","Cozinha","Organização","Banheiro","Decoração"];
+let act="Elétricos",q="",cart=[];
+function renderCats(){
+let c=document.getElementById('cats');c.innerHTML='';
+let b=document.createElement('button');b.className='cat'+(act=='Todos'?' a':'');b.textContent='Todos';b.onclick=function(){act='Todos';render()};c.appendChild(b);
+CATS.forEach(function(k){
+let e=document.createElement('button');e.className='cat'+(act==k?' a':'');e.textContent=k;e.onclick=function(){act=k;render()};c.appendChild(e)
+});
+}
+function filtered(){return DATA.filter(function(p){return (act=='Todos'||p.c==act)&&(!q||p.n.toLowerCase().indexOf(q.toLowerCase())>=0)})}
+function render(){
+renderCats();
+let list=filtered();
+document.getElementById('cnt').textContent=list.length+' produtos em '+act;
+document.getElementById('tit').textContent=act;
+let g=document.getElementById('grid');g.innerHTML='';
+list.forEach(function(p,i){
+let off=p.o?Math.round((1-p.o/p.p)*100):0;
+let d=document.createElement('div');d.className='card';
+d.innerHTML='<div class="card-top">'+p.c+' '+(off?'<span class=tag>'+off+'% OFF</span>':'')+'</div><div class="card-b"><div style="font-size:12px;min-height:32px">'+p.n+'</div><div style="color:#f5a623;font-size:11px">***** ('+p.v+')</div><div class="price">'+(p.o?'R$ '+p.o.toFixed(2)+' <small style="color:#999;text-decoration:line-through">R$ '+p.p.toFixed(2)+'</small>':'R$ '+p.p.toFixed(2))+'</div><button class="btn" onclick="add('+i+')">Adicionar</button></div>';
+g.appendChild(d)
+});
+upd();
+}
+function add(i){let p=DATA[i];let f=cart.find(function(x){return x.n==p.n});if(f)f.qtd++;else cart.push({n:p.n,c:p.c,p:p.p,o:p.o,v:p.v,qtd:1});upd();document.getElementById('modal').classList.add('o')}
+function upd(){
+document.getElementById('cc').textContent=cart.reduce(function(s,i){return s+i.qtd},0);
+let tot=cart.reduce(function(s,i){return s+(i.o||i.p)*i.qtd},0);
+document.getElementById('tot').textContent='R$ '+tot.toFixed(2);
+let l=document.getElementById('list');l.innerHTML='';
+cart.forEach(function(i){l.innerHTML+='<div style="display:flex;justify-content:space-between;border:1px solid #ffd6de;padding:6px;border-radius:8px"><span>'+i.n+' x'+i.qtd+'</span><b>R$ '+((i.o||i.p)*i.qtd).toFixed(2)+'</b></div>'})
+}
+function tog(){document.getElementById('modal').classList.toggle('o')}
+function zap(){if(!cart.length)return alert('vazio');let m='Ola Sara! Quero:%0A';cart.forEach(function(i){m+='- '+i.n+' x'+i.qtd+'%0A'});window.open('https://wa.me/5591999999999?text='+m,'_blank')}
+document.getElementById('q').addEventListener('input',function(e){q=e.target.value;render()});
+render();
+</script>
+</body>
+</html>
