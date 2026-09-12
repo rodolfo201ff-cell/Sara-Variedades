@@ -1,166 +1,39 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sara Variedades - Belém PA</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;800&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}body{font-family:Inter,sans-serif;background:#fff5f7}
-.top{background:#111;color:#fff;display:flex;align-items:center;gap:12px;padding:12px 18px;flex-wrap:wrap;position:sticky;top:0;z-index:9}
-.logo{display:flex;gap:8px;align-items:center}.logo i{width:40px;height:40px;background:linear-gradient(135deg,#ff2d78,#ff8a5c);border-radius:10px;display:grid;place-items:center;font-style:normal;font-size:22px}
-.search{flex:1;max-width:500px;background:#222;border-radius:999px;padding:8px 14px;display:flex;gap:8px} .search input{flex:1;background:transparent;border:0;color:#fff;outline:none}
-.hero{background:linear-gradient(90deg,#ff0c6b,#ff5a5a);color:#fff;padding:20px 22px;display:grid;grid-template-columns:1.1fr .9fr;align-items:center}
-.hero h1{font-size:42px;line-height:.9}.cats{display:flex;gap:8px;overflow:auto;padding:14px 18px}.cat{padding:10px 16px;border-radius:999px;border:2px solid #eee;background:#fff;font-weight:700;white-space:nowrap;cursor:pointer}.cat.active{background:#ff2d78;color:#fff;border-color:#ff2d78}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:12px;padding:12px 18px}.card{background:#fff;border-radius:12px;border:1px solid #ffd6de;overflow:hidden}.card-top{height:140px;display:grid;place-items:center;background:#fff0f3;font-size:56px;position:relative}.tag{position:absolute;top:6px;left:6px;background:#ff2d78;color:#fff;font-size:10px;padding:3px 7px;border-radius:999px;font-weight:800}.card-b{padding:8px 10px}.price{color:#ff2d78;font-weight:800}footer{background:#111;color:#888;text-align:center;padding:12px;font-size:11px;margin-top:14px}
-.btn{background:#ff2d78;color:#fff;border:0;padding:8px 12px;border-radius:8px;font-weight:800;cursor:pointer;width:100%;margin-top:6px}
-.badge{position:relative}.bc{position:absolute;top:-6px;right:-6px;background:#ff2d78;color:#fff;width:16px;height:16px;border-radius:999px;display:grid;place-items:center;font-size:10px}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;place-items:center;z-index:20}.modal.open{display:grid}.sheet{background:#fff;padding:16px;border-radius:14px;width:min(420px,92vw)}
-</style>
-</head>
-<body>
-<div class="top"><div class="logo"><i>⚡</i><div><b>Sara Variedades</b><br><small style="opacity:.6">Elétrica & Casa - Belém PA</small></div></div><div class="search">🔍<input id="q" placeholder="Buscar produto..."></div><div style="display:flex;gap:14px"><div>📍<small>Belém - PA</small></div><div class="badge" onclick="toggle()"><span style="font-size:20px">🛒</span><span class="bc" id="cc">0</span></div></div></div>
-<div class="hero"><div><h1>Tudo para sua casa</h1><p style="margin:10px 0">Elétricos, utilidades e artigos para o lar - entrega rápida em Belém/PA</p><button onclick="document.getElementById('prod').scrollIntoView({behavior:'smooth'})" style="background:#fff;color:#ff2d78;border:0;padding:10px 18px;border-radius:999px;font-weight:800">Comprar agora</button></div><div style="font-size:70px;text-align:center">🍳🔧💡</div></div>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,Segoe UI,Arial;background:#fff5f7}
+.top{background:#111;color:#fff;display:flex;gap:12px;align-items:center;padding:12px 16px;flex-wrap:wrap;position:sticky;top:0;z-index:9}
+.logo{display:flex;gap:8px;align-items:center;font-weight:800}
+.sch{flex:1;max-width:500px;background:#222;border-radius:999px;padding:8px 14px;display:flex;gap:8px}.sch input{flex:1;background:transparent;border:0;color:#fff;outline:none}
+.hero{background:linear-gradient(90deg,#ff0c6b,#ff5a5a);color:#fff;padding:18px 20px;display:flex;justify-content:space-between;align-items:center}
+.cats{display:flex;gap:8px;overflow:auto;padding:12px 16px}.cat{padding:8px 14px;border-radius:999px;border:2px solid #eee;background:#fff;font-weight:700;white-space:nowrap;cursor:pointer}.cat.a{background:#ff2d78;color:#fff;border-color:#ff2d78}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px;padding:10px 16px}.card{background:#fff;border-radius:12px;border:1px solid #ffd6de;overflow:hidden}
+.card-top{height:120px;display:grid;place-items:center;background:#fff0f3;font-size:48px;position:relative}.tag{position:absolute;top:6px;left:6px;background:#ff2d78;color:#fff;font-size:10px;padding:3px 6px;border-radius:999px}
+.card-b{padding:8px 10px}.price{color:#ff2d78;font-weight:800}.btn{background:#ff2d78;color:#fff;border:0;padding:7px;border-radius:8px;font-weight:800;width:100%;margin-top:6px;cursor:pointer}
+.badge{position:relative;cursor:pointer}.bc{position:absolute;top:-6px;right:-6px;background:#ff2d78;color:#fff;width:18px;height:18px;border-radius:999px;display:grid;place-items:center;font-size:11px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;place-items:center;z-index:20}.modal.o{display:grid}.sheet{background:#fff;padding:14px;border-radius:12px;width:min(420px,92vw)}
+</style></head><body>
+<div class="top"><div class="logo">⚡ Sara Variedades - Belém PA</div><div class="sch">🔍<input id="q" placeholder="Buscar 312 produtos..."></div><div>📍 Belém - PA</div><div class="badge" onclick="tog()"><span style="font-size:22px">🛒</span><b class="bc" id="cc">0</b></div></div>
+<div class="hero"><div><h1 style="font-size:36px">Tudo para sua casa</h1><p>Elétricos, utilidades e lar - entrega rápida em Belém</p></div><div style="font-size:54px">🍳🔧💡</div></div>
 <div class="cats" id="cats"></div>
-<div id="prod"><div style="padding:12px 18px;font-weight:800;display:flex;justify-content:space-between"><span id="tit">Mais vendidos</span><span style="color:#ff2d78;cursor:pointer" onclick="active='Todos';render()">Ver todos →</span></div><div id="cnt" style="padding:0 18px;font-size:12px;color:#888"></div><div class="grid" id="grid"></div></div>
-<footer>Sara Variedades © 2024 Belém PA - WhatsApp (91) 99999-8888</footer>
-<div class="modal" id="modal"><div class="sheet"><div style="display:flex;justify-content:space-between"><h3>Carrinho</h3><button onclick="toggle()">X</button></div><div id="list" style="margin:10px 0;display:grid;gap:6px"></div><div style="display:flex;justify-content:space-between;font-weight:800"><span>Total</span><span id="tot">R$ 0</span></div><button class="btn" onclick="zap()">Finalizar no WhatsApp</button></div></div>
+<div style="padding:10px 16px;display:flex;justify-content:space-between;font-weight:800"><span id="tit"></span><span style="color:#ff2d78;cursor:pointer" onclick="act='Todos';render()">Ver todos →</span></div>
+<div id="cnt" style="padding:0 16px;font-size:12px;color:#888"></div>
+<div class="grid" id="grid"></div>
+<footer style="text-align:center;padding:12px;color:#888;font-size:11px">Sara Variedades © 2024 Belém PA - WhatsApp (91) 99999-8888</footer>
+<div class="modal" id="modal"><div class="sheet"><div style="display:flex;justify-content:space-between"><h3>Carrinho</h3><button onclick="tog()">X</button></div><div id="list" style="margin:10px 0;display:grid;gap:6px"></div><div style="display:flex;justify-content:space-between;font-weight:800"><span>Total</span><span id="tot">R$ 0</span></div><button class="btn" onclick="zap()">Finalizar no WhatsApp</button></div></div>
 <script>
-const PRODUCTS=[
-  {"id":1,"nome":"Extensão Elétrica 5m","categoria":"Elétricos","preco":117.5,"promo":101.17,"vend":65,"emoji":"⚡"},
-  {"id":2,"nome":"Extensão 10m","categoria":"Elétricos","preco":35.99,"promo":null,"vend":79,"emoji":"⚡"},
-  {"id":3,"nome":"Filtro de Linha 5 Tomadas","categoria":"Elétricos","preco":102.0,"promo":87.29,"vend":26,"emoji":"⚡"},
-  {"id":4,"nome":"Filtro de Linha 3 Tomadas","categoria":"Elétricos","preco":272.5,"promo":203.48,"vend":68,"emoji":"⚡"},
-  {"id":5,"nome":"Adaptador Universal","categoria":"Elétricos","preco":175.5,"promo":123.12,"vend":53,"emoji":"⚡"},
-  {"id":6,"nome":"Adaptador T Triplo","categoria":"Elétricos","preco":73.99,"promo":null,"vend":64,"emoji":"⚡"},
-  {"id":7,"nome":"Tomada Inteligente WiFi","categoria":"Elétricos","preco":204.9,"promo":152.43,"vend":59,"emoji":"⚡"},
-  {"id":8,"nome":"Interruptor Inteligente","categoria":"Elétricos","preco":258.5,"promo":null,"vend":55,"emoji":"⚡"},
-  {"id":9,"nome":"Lâmpada Inteligente RGB","categoria":"Elétricos","preco":149.0,"promo":null,"vend":22,"emoji":"⚡"},
-  {"id":10,"nome":"Plugue Macho 10A","categoria":"Elétricos","preco":103.5,"promo":null,"vend":13,"emoji":"⚡"},
-  {"id":11,"nome":"Plugue Fêmea 10A","categoria":"Elétricos","preco":67.9,"promo":54.1,"vend":75,"emoji":"⚡"},
-  {"id":12,"nome":"Cabo Flexível 2,5mm Rolo 10m","categoria":"Elétricos","preco":278.99,"promo":null,"vend":40,"emoji":"⚡"},
-  {"id":13,"nome":"Fita Isolante 10m","categoria":"Elétricos","preco":64.5,"promo":51.18,"vend":58,"emoji":"⚡"},
-  {"id":14,"nome":"Canaleta 20mm 2m","categoria":"Elétricos","preco":120.5,"promo":null,"vend":67,"emoji":"⚡"},
-  {"id":15,"nome":"Quadro de Distribuição 8 Disjuntores","categoria":"Elétricos","preco":232.5,"promo":208.52,"vend":18,"emoji":"⚡"},
-  {"id":16,"nome":"Disjuntor 20A","categoria":"Elétricos","preco":229.5,"promo":null,"vend":44,"emoji":"⚡"},
-  {"id":17,"nome":"Disjuntor 25A","categoria":"Elétricos","preco":227.5,"promo":186.26,"vend":28,"emoji":"⚡"},
-  {"id":18,"nome":"Campainha Sem Fio","categoria":"Elétricos","preco":231.5,"promo":176.11,"vend":33,"emoji":"⚡"},
-  {"id":19,"nome":"Sensor de Presença","categoria":"Elétricos","preco":29.0,"promo":null,"vend":75,"emoji":"⚡"},
-  {"id":20,"nome":"Relé Fotoelétrico","categoria":"Elétricos","preco":23.5,"promo":null,"vend":12,"emoji":"⚡"},
-  {"id":21,"nome":"Chuveiro Elétrico 5500W","categoria":"Elétricos","preco":77.99,"promo":null,"vend":12,"emoji":"⚡"},
-  {"id":22,"nome":"Resistência Chuveiro Lorenzetti","categoria":"Elétricos","preco":177.99,"promo":127.49,"vend":45,"emoji":"⚡"},
-  {"id":23,"nome":"Torneira Elétrica","categoria":"Elétricos","preco":42.99,"promo":34.34,"vend":37,"emoji":"⚡"},
-  {"id":24,"nome":"Boia Elétrica","categoria":"Elétricos","preco":62.99,"promo":null,"vend":41,"emoji":"⚡"},
-  {"id":25,"nome":"Multímetro Digital","categoria":"Elétricos","preco":113.5,"promo":101.6,"vend":69,"emoji":"⚡"},
-  {"id":26,"nome":"Alicate Amperímetro","categoria":"Elétricos","preco":241.0,"promo":213.71,"vend":9,"emoji":"⚡"},
-  {"id":27,"nome":"Ferro de Solda 40W","categoria":"Elétricos","preco":232.99,"promo":188.4,"vend":13,"emoji":"⚡"},
-  {"id":28,"nome":"Estação de Solda","categoria":"Elétricos","preco":221.99,"promo":null,"vend":55,"emoji":"⚡"},
-  {"id":29,"nome":"Carregador USB 4 Portas","categoria":"Elétricos","preco":77.5,"promo":59.61,"vend":8,"emoji":"⚡"},
-  {"id":30,"nome":"Cabo USB-C 2m","categoria":"Elétricos","preco":236.0,"promo":null,"vend":19,"emoji":"⚡"},
-  {"id":31,"nome":"Cabo HDMI 3m","categoria":"Elétricos","preco":185.0,"promo":null,"vend":36,"emoji":"⚡"},
-  {"id":32,"nome":"Cabo de Rede 20m","categoria":"Elétricos","preco":201.99,"promo":null,"vend":70,"emoji":"⚡"},
-  {"id":33,"nome":"Antena Digital Interna","categoria":"Elétricos","preco":184.0,"promo":null,"vend":10,"emoji":"⚡"},
-  {"id":34,"nome":"Controle Universal TV","categoria":"Elétricos","preco":42.5,"promo":null,"vend":34,"emoji":"⚡"},
-  {"id":35,"nome":"Pilhas AA C/4","categoria":"Elétricos","preco":142.9,"promo":null,"vend":66,"emoji":"⚡"},
-  {"id":36,"nome":"Pilhas AAA C/4","categoria":"Elétricos","preco":239.0,"promo":null,"vend":66,"emoji":"⚡"},
-  {"id":37,"nome":"Bateria 9V","categoria":"Elétricos","preco":135.5,"promo":null,"vend":7,"emoji":"⚡"},
-  {"id":38,"nome":"Carregador de Pilhas","categoria":"Elétricos","preco":212.5,"promo":null,"vend":66,"emoji":"⚡"},
-  {"id":39,"nome":"Inversor 12V p/ 110V","categoria":"Elétricos","preco":179.0,"promo":null,"vend":48,"emoji":"⚡"},
-  {"id":40,"nome":"Estabilizador 500VA","categoria":"Elétricos","preco":166.99,"promo":null,"vend":36,"emoji":"⚡"},
-  {"id":41,"nome":"Nobreak 600VA","categoria":"Elétricos","preco":110.5,"promo":86.19,"vend":62,"emoji":"⚡"},
-  {"id":42,"nome":"Ventilador de Teto","categoria":"Elétricos","preco":66.5,"promo":null,"vend":6,"emoji":"⚡"},
-  {"id":43,"nome":"Ventilador de Mesa 40cm","categoria":"Elétricos","preco":127.0,"promo":null,"vend":63,"emoji":"⚡"},
-  {"id":44,"nome":"Ventilador de Parede 50cm","categoria":"Elétricos","preco":127.9,"promo":null,"vend":58,"emoji":"⚡"},
-  {"id":45,"nome":"Exaustor de Banheiro","categoria":"Elétricos","preco":238.0,"promo":202.24,"vend":57,"emoji":"⚡"},
-  {"id":46,"nome":"Motor de Portão","categoria":"Elétricos","preco":186.9,"promo":140.78,"vend":72,"emoji":"⚡"},
-  {"id":47,"nome":"Lâmpada LED 9W","categoria":"Iluminação","preco":217.5,"promo":null,"vend":42,"emoji":"💡"},
-  {"id":48,"nome":"Lâmpada LED 12W","categoria":"Iluminação","preco":112.9,"promo":null,"vend":20,"emoji":"💡"},
-  {"id":49,"nome":"Lâmpada LED 15W","categoria":"Iluminação","preco":111.0,"promo":null,"vend":74,"emoji":"💡"},
-  {"id":50,"nome":"Lâmpada Bulbo 20W","categoria":"Iluminação","preco":273.5,"promo":null,"vend":40,"emoji":"💡"},
-  {"id":51,"nome":"Lâmpada Filamento LED","categoria":"Iluminação","preco":161.5,"promo":119.25,"vend":37,"emoji":"💡"},
-  {"id":52,"nome":"Spot LED Embutir Quadrado","categoria":"Iluminação","preco":142.99,"promo":104.42,"vend":61,"emoji":"💡"},
-  {"id":53,"nome":"Spot LED Redondo","categoria":"Iluminação","preco":165.99,"promo":125.61,"vend":20,"emoji":"💡"},
-  {"id":54,"nome":"Painel LED 18W Quadrado","categoria":"Iluminação","preco":126.0,"promo":null,"vend":6,"emoji":"💡"},
-  {"id":55,"nome":"Painel LED 24W Redondo","categoria":"Iluminação","preco":268.5,"promo":null,"vend":36,"emoji":"💡"},
-  {"id":56,"nome":"Fita LED 5m RGB","categoria":"Iluminação","preco":23.0,"promo":null,"vend":52,"emoji":"💡"},
-  {"id":57,"nome":"Fita LED 5m Branco Quente","categoria":"Iluminação","preco":222.99,"promo":175.94,"vend":37,"emoji":"💡"},
-  {"id":58,"nome":"Controlador Fita LED","categoria":"Iluminação","preco":130.99,"promo":114.32,"vend":29,"emoji":"💡"},
-  {"id":59,"nome":"Luminária de Emergência 30 LEDs","categoria":"Iluminação","preco":208.9,"promo":null,"vend":65,"emoji":"💡"},
-  {"id":60,"nome":"Luminária de Emergência 60 LEDs","categoria":"Iluminação","preco":183.5,"promo":138.03,"vend":25,"emoji":"💡"},
-  {"id":61,"nome":"Refletor LED 50W","categoria":"Iluminação","preco":149.99,"promo":123.75,"vend":63,"emoji":"💡"},
-  {"id":62,"nome":"Refletor LED 100W","categoria":"Iluminação","preco":36.9,"promo":null,"vend":55,"emoji":"💡"},
-  {"id":63,"nome":"Refletor LED 200W com Sensor","categoria":"Iluminação","preco":278.99,"promo":null,"vend":25,"emoji":"💡"},
-  {"id":64,"nome":"Arandela Externa","categoria":"Iluminação","preco":111.5,"promo":99.25,"vend":65,"emoji":"💡"},
-  {"id":65,"nome":"Poste Balizador Solar","categoria":"Iluminação","preco":161.5,"promo":null,"vend":53,"emoji":"💡"},
-  {"id":66,"nome":"Luminária Solar Parede","categoria":"Iluminação","preco":31.5,"promo":28.66,"vend":10,"emoji":"💡"},
-  {"id":67,"nome":"Pisca Pisca LED 100 Leds","categoria":"Iluminação","preco":113.5,"promo":null,"vend":28,"emoji":"💡"},
-  {"id":68,"nome":"Pisca Pisca Solar","categoria":"Iluminação","preco":195.99,"promo":173.97,"vend":67,"emoji":"💡"},
-  {"id":69,"nome":"Cordão de Luz 10m","categoria":"Iluminação","preco":267.0,"promo":null,"vend":37,"emoji":"💡"},
-  {"id":70,"nome":"Abajur Tecido","categoria":"Iluminação","preco":270.99,"promo":null,"vend":29,"emoji":"💡"},
-  {"id":71,"nome":"Abajur Madeira","categoria":"Iluminação","preco":237.9,"promo":196.37,"vend":28,"emoji":"💡"},
-  {"id":72,"nome":"Pendente Industrial","categoria":"Iluminação","preco":128.5,"promo":100.09,"vend":31,"emoji":"💡"},
-  {"id":73,"nome":"Pendente Corda","categoria":"Iluminação","preco":118.0,"promo":null,"vend":52,"emoji":"💡"},
-  {"id":74,"nome":"Lustre Cristal 3 Braços","categoria":"Iluminação","preco":53.0,"promo":null,"vend":30,"emoji":"💡"},
-  {"id":75,"nome":"Trilho Spot 3 Lâmpadas","categoria":"Iluminação","preco":27.5,"promo":null,"vend":61,"emoji":"💡"},
-  {"id":76,"nome":"Luminária Articulada Mesa","categoria":"Iluminação","preco":50.0,"promo":null,"vend":12,"emoji":"💡"},
-  {"id":77,"nome":"Luminária de Chão","categoria":"Iluminação","preco":156.5,"promo":110.5,"vend":70,"emoji":"💡"},
-  {"id":78,"nome":"Lanterna Recarregável","categoria":"Iluminação","preco":229.99,"promo":null,"vend":29,"emoji":"💡"},
-  {"id":79,"nome":"Lanterna de Cabeça","categoria":"Iluminação","preco":200.99,"promo":177.79,"vend":62,"emoji":"💡"},
-  {"id":80,"nome":"Lampião LED Recarregável","categoria":"Iluminação","preco":194.9,"promo":151.87,"vend":64,"emoji":"💡"},
-  {"id":81,"nome":"Luz Noturna Sensor","categoria":"Iluminação","preco":115.0,"promo":87.37,"vend":9,"emoji":"💡"},
-  {"id":82,"nome":"Lâmpada Espiral","categoria":"Iluminação","preco":117.5,"promo":87.27,"vend":51,"emoji":"💡"},
-  {"id":83,"nome":"Soquete Porcelana E27","categoria":"Iluminação","preco":158.0,"promo":135.44,"vend":23,"emoji":"💡"},
-  {"id":84,"nome":"Soquete com Rabicho","categoria":"Iluminação","preco":159.5,"promo":null,"vend":62,"emoji":"💡"},
-  {"id":85,"nome":"Bocal com Sensor","categoria":"Iluminação","preco":243.9,"promo":215.59,"vend":13,"emoji":"💡"},
-  {"id":86,"nome":"Dimmer Rotativo","categoria":"Iluminação","preco":143.9,"promo":114.73,"vend":52,"emoji":"💡"},
-  {"id":87,"nome":"Interruptor Dimmer Touch","categoria":"Iluminação","preco":103.5,"promo":86.98,"vend":65,"emoji":"💡"},
-  {"id":88,"nome":"Perfil LED Sobrepor 1m","categoria":"Iluminação","preco":206.99,"promo":null,"vend":71,"emoji":"💡"},
-  {"id":89,"nome":"Perfil LED Embutir 2m","categoria":"Iluminação","preco":90.9,"promo":null,"vend":61,"emoji":"💡"},
-  {"id":90,"nome":"Tubo LED T8 18W","categoria":"Iluminação","preco":234.0,"promo":null,"vend":66,"emoji":"💡"},
-  {"id":91,"nome":"Plafon LED 36W","categoria":"Iluminação","preco":218.5,"promo":null,"vend":52,"emoji":"💡"},
-  {"id":92,"nome":"Vassoura Nylon","categoria":"Utilidades Domésticas","preco":53.5,"promo":null,"vend":27,"emoji":"🧹"},
-  {"id":93,"nome":"Rodo 40cm","categoria":"Utilidades Domésticas","preco":264.9,"promo":237.1,"vend":56,"emoji":"🧹"},
-  {"id":94,"nome":"Rodo 60cm","categoria":"Utilidades Domésticas","preco":237.9,"promo":192.86,"vend":5,"emoji":"🧹"},
-  {"id":95,"nome":"Pá de Lixo Cabo Longo","categoria":"Utilidades Domésticas","preco":18.5,"promo":null,"vend":6,"emoji":"🧹"},
-  {"id":96,"nome":"Balde 15L","categoria":"Utilidades Domésticas","preco":174.99,"promo":148.56,"vend":39,"emoji":"🧹"},
-  {"id":97,"nome":"Balde 20L com Esfregão","categoria":"Utilidades Domésticas","preco":47.0,"promo":41.39,"vend":16,"emoji":"🧹"},
-  {"id":98,"nome":"Mop Giratório 360","categoria":"Utilidades Domésticas","preco":79.0,"promo":58.89,"vend":33,"emoji":"🧹"},
-  {"id":99,"nome":"Escova Sanitária","categoria":"Utilidades Domésticas","preco":26.99,"promo":null,"vend":39,"emoji":"🧹"},
-  {"id":100,"nome":"Lixeira Pedal 12L Inox","categoria":"Utilidades Domésticas","preco":229.0,"promo":179.72,"vend":78,"emoji":"🧹"},
- {"id":101,"nome":"Lixeira Pedal 20L","categoria":"Utilidades Domésticas","preco":104.9,"promo":79.93,"vend":72,"emoji":"🧹"},
-  {"id":102,"nome":"Lixeira Pedal 50L","categoria":"Utilidades Domésticas","preco":128.0,"promo":90.7,"vend":25,"emoji":"🧹"},
-  {"id":103,"nome":"Cesto Roupa 60L","categoria":"Utilidades Domésticas","preco":263.5,"promo":null,"vend":77,"emoji":"🧹"},
-  {"id":104,"nome":"Varal de Chão Aço","categoria":"Utilidades Domésticas","preco":206.99,"promo":163.68,"vend":28,"emoji":"🧹"},
-  {"id":105,"nome":"Varal de Teto 120cm","categoria":"Utilidades Domésticas","preco":165.9,"promo":null,"vend":16,"emoji":"🧹"},
-  {"id":106,"nome":"Tábua de Passar Roupa","categoria":"Utilidades Domésticas","preco":197.0,"promo":148.23,"vend":34,"emoji":"🧹"},
-  {"id":107,"nome":"Capa Tábua de Passar","categoria":"Utilidades Domésticas","preco":76.5,"promo":58.94,"vend":63,"emoji":"🧹"},
-  {"id":108,"nome":"Ferro de Passar a Vapor","categoria":"Utilidades Domésticas","preco":33.0,"promo":null,"vend":65,"emoji":"🧹"},
-  {"id":109,"nome":"Cabide Veludo C/30","categoria":"Utilidades Domésticas","preco":247.99,"promo":null,"vend":75,"emoji":"🧹"},
-  {"id":110,"nome":"Cabide Plástico C/50","categoria":"Utilidades Domésticas","preco":220.99,"promo":182.57,"vend":20,"emoji":"🧹"},
-  {"id":111,"nome":"Prendedor de Roupa C/36","categoria":"Utilidades Domésticas","preco":83.99,"promo":69.02,"vend":57,"emoji":"🧹"},
-  {"id":112,"nome":"Cesto Organizador Dobrável","categoria":"Utilidades Domésticas","preco":165.5,"promo":119.17,"vend":46,"emoji":"🧹"},
-  {"id":113,"nome":"Caixa Organizadora 30L","categoria":"Utilidades Domésticas","preco":200.99,"promo":143.16,"vend":39,"emoji":"🧹"},
-  {"id":114,"nome":"Caixa Organizadora 50L Transparente","categoria":"Utilidades Domésticas","preco":229.0,"promo":null,"vend":22,"emoji":"🧹"},
-  {"id":115,"nome":"Saco a Vácuo C/4","categoria":"Utilidades Domésticas","preco":253.5,"promo":224.13,"vend":21,"emoji":"🧹"},
-  {"id":116,"nome":"Protetor de Colchão","categoria":"Utilidades Domésticas","preco":267.9,"promo":null,"vend":17,"emoji":"🧹"},
-  {"id":117,"nome":"Capa de Almofada","categoria":"Utilidades Domésticas","preco":182.9,"promo":null,"vend":31,"emoji":"🧹"},
-  {"id":118,"nome":"Edredom Casal","categoria":"Utilidades Domésticas","preco":136.9,"promo":null,"vend":41,"emoji":"🧹"},
-  {"id":119,"nome":"Jogo de Lençol Casal","categoria":"Utilidades Domésticas","preco":150.5,"promo":134.5,"vend":21,"emoji":"🧹"},
-  {"id":120,"nome":"Toalha de Banho Grande","categoria":"Utilidades Domésticas","preco":231.0,"promo":180.82,"vend":35,"emoji":"🧹"},
-  {"id":121,"nome":"Toalha Rosto C/2","categoria":"Utilidades Domésticas","preco":196.99,"promo":null,"vend":23,"emoji":"🧹"},
-  {"id":122,"nome":"Pano de Chão C/3","categoria":"Utilidades Domésticas","preco":53.9,"promo":null,"vend":17,"emoji":"🧹"},
-  {"id":123,"nome":"Pano Microfibra C/10","categoria":"Utilidades Domésticas","preco":256.5,"promo":null,"vend":24,"emoji":"🧹"},
-  {"id":124,"nome":"Luva de Borracha","categoria":"Utilidades Domésticas","preco":15.99,"promo":null,"vend":66,"emoji":"🧹"},
-  {"id":125,"nome":"Luva Multiuso","categoria":"Utilidades Domésticas","preco":205.5,"promo":null,"vend":60,"emoji":"🧹"},
-  {"id":126,"nome":"Escada Alumínio 5 Degraus","categoria":"Utilidades Domésticas","preco":131.9,"promo":120.71,"vend":49,"emoji":"🧹"},
-  {"id":127,"nome":"Escada 7 Degraus","categoria":"Utilidades Domésticas","preco":163.5,"promo":null,"vend":79,"emoji":"🧹"},
-  {"id":128,"nome":"Fita Antiderrapante 5m","categoria":"Utilidades Domésticas","preco":266.0,"promo":null,"vend":23,"emoji":"🧹"},
-  {"id":129,"nome":"Tapete Antiderrapante Banheiro","categoria":"Utilidades Domésticas","preco":34.0,"promo":null,"vend":53,"emoji":"🧹"},
-  {"id":130,"nome":"Porta Papel Higiênico Inox","categoria":"Utilidades Domésticas","preco":28.99,"promo":null,"vend":58,"emoji":"🧹"},
-  {"id":131,"nome":"Suporte para Shampoo","categoria":"Utilidades Domésticas","preco":273.5,"promo":246.52,"vend":78,"emoji":"🧹"},
-  {"id":132,"nome":"Espelho com Ventosa","categoria":"Utilidades Domésticas","preco":238.5,"promo":190.86,"vend":32,"emoji":"🧹"},
-  {"id":133,"nome":"Desentupidor Pia","categoria":"Utilidades Domésticas","preco":22.9,"promo":null,"vend":12,"emoji":"🧹"},
-  {"id":134,"nome":"Desentupidor Vaso","categoria":"Utilidades Domésticas","preco":200.5,"promo":null,"vend":45,"emoji":"🧹"},
-  {"id":135,"nome":"Sifão Flexível","categoria":"Utilidades Domésticas","preco":242.5,"promo":null,"vend":67,"emoji":"🧹"},
-  {"id":136,"nome":"Torneira Inox Pia","categoria":"Utilidades Domésticas","preco":159.0,"promo":null,"vend":33,"emoji":"🧹"},
-  {"id":137,"nome":"Chuveirinho Higiênico","categoria":"Utilidades Domésticas","preco":60.99,"promo":55.44,"vend":73,"emoji":"🧹"},
-  {"id":138,"nome":"Jogo de Facas 
+const RAW=["Extensão Elétrica 5m|Elétricos|117.5|101.17|65|⚡","Extensão 10m|Elétricos|35.99||79|⚡","Filtro de Linha 5 Tomadas|Elétricos|102|87.29|26|⚡","Filtro de Linha 3 Tomadas|Elétricos|272.5|203.48|68|⚡","Adaptador Universal|Elétricos|175.5|123.12|53|⚡","Adaptador T Triplo|Elétricos|73.99||64|⚡","Tomada Inteligente WiFi|Elétricos|204.9|152.43|59|⚡","Interruptor Inteligente|Elétricos|258.5||55|⚡","Lâmpada Inteligente RGB|Elétricos|149||22|⚡","Plugue Macho 10A|Elétricos|103.5||13|⚡","Plugue Fêmea 10A|Elétricos|67.9|54.1|75|⚡","Cabo Flexível 2,5mm 10m|Elétricos|278.99||40|⚡","Fita Isolante 10m|Elétricos|64.5|51.18|58|⚡","Canaleta 20mm 2m|Elétricos|120.5||67|⚡","Quadro Distribuição 8 Disj|Elétricos|232.5|208.52|18|⚡","Disjuntor 20A|Elétricos|229.5||44|⚡","Disjuntor 25A|Elétricos|227.5|186.26|28|⚡","Campainha Sem Fio|Elétricos|231.5|176.11|33|⚡","Sensor de Presença|Elétricos|29||75|⚡","Relé Fotoelétrico|Elétricos|23.5||12|⚡","Chuveiro 5500W|Elétricos|77.99||12|⚡","Resistência Chuveiro|Elétricos|177.99|127.49|45|⚡","Torneira Elétrica|Elétricos|42.99|34.34|37|⚡","Boia Elétrica|Elétricos|62.99||41|⚡","Multímetro Digital|Elétricos|113.5|101.6|69|⚡","Alicate Amperímetro|Elétricos|241|213.71|9|⚡","Ferro de Solda 40W|Elétricos|232.99|188.4|13|⚡","Estação de Solda|Elétricos|221.99||55|⚡","Carregador USB 4 Portas|Elétricos|77.5|59.61|8|⚡","Cabo USB-C 2m|Elétricos|236||19|⚡","Cabo HDMI 3m|Elétricos|185||36|⚡","Cabo de Rede 20m|Elétricos|201.99||70|⚡","Antena Digital Interna|Elétricos|184||10|⚡","Controle Universal TV|Elétricos|42.5||34|⚡","Pilhas AA C/4|Elétricos|142.9||66|⚡","Pilhas AAA C/4|Elétricos|239||66|⚡","Bateria 9V|Elétricos|135.5||7|⚡","Carregador de Pilhas|Elétricos|212.5||66|⚡","Inversor 12V p/ 110V|Elétricos|179||48|⚡","Estabilizador 500VA|Elétricos|166.99||36|⚡","Nobreak 600VA|Elétricos|110.5|86.19|62|⚡","Ventilador de Teto|Elétricos|66.5||6|⚡","Ventilador de Mesa 40cm|Elétricos|127||63|⚡","Ventilador Parede 50cm|Elétricos|127.9||58|⚡","Exaustor Banheiro|Elétricos|238|202.24|57|⚡","Motor de Portão|Elétricos|186.9|140.78|72|⚡","Lâmpada LED 9W|Iluminação|217.5||42|💡","Lâmpada LED 12W|Iluminação|112.9||20|💡","Lâmpada LED 15W|Iluminação|111||74|💡","Lâmpada Bulbo 20W|Iluminação|273.5||40|💡","Lâmpada Filamento LED|Iluminação|161.5|119.25|37|💡","Spot LED Quadrado|Iluminação|142.99|104.42|61|💡","Spot LED Redondo|Iluminação|165.99|125.61|20|💡","Painel LED 18W Quad|Iluminação|126||6|💡","Painel LED 24W Red|Iluminação|268.5||36|💡","Fita LED 5m RGB|Iluminação|23||52|💡","Fita LED 5m Branco|Iluminação|222.99|175.94|37|💡","Controlador Fita LED|Iluminação|130.99|114.32|29|💡","Luminária Emergência 30 LEDs|Iluminação|208.9||65|💡","Luminária Emergência 60 LEDs|Iluminação|183.5|138.03|25|💡","Refletor LED 50W|Iluminação|149.99|123.75|63|💡","Refletor LED 100W|Iluminação|36.9||55|💡","Refletor 200W c/ Sensor|Iluminação|278.99||25|💡","Arandela Externa|Iluminação|111.5|99.25|65|💡","Poste Balizador Solar|Iluminação|161.5||53|💡","Luminária Solar Parede|Iluminação|31.5|28.66|10|💡","Pisca Pisca 100 Leds|Iluminação|113.5||28|💡","Pisca Pisca Solar|Iluminação|195.99|173.97|67|💡","Cordão de Luz 10m|Iluminação|267||37|💡","Abajur Tecido|Iluminação|270.99||29|💡","Abajur Madeira|Iluminação|237.9|196.37|28|💡","Pendente Industrial|Iluminação|128.5|100.09|31|💡","Pendente Corda|Iluminação|118||52|💡","Lustre Cristal 3 Braços|Iluminação|53||30|💡","Trilho Spot 3 Lâmpadas|Iluminação|27.5||61|💡","Luminária Articulada Mesa|Iluminação|50||12|💡","Luminária de Chão|Iluminação|156.5|110.5|70|💡","Lanterna Recarregável|Iluminação|229.99||29|💡","Lanterna de Cabeça|Iluminação|200.99|177.79|62|💡","Lampião LED|Iluminação|194.9|151.87|64|💡","Luz Noturna Sensor|Iluminação|115|87.37|9|💡","Lâmpada Espiral|Iluminação|117.5|87.27|51|💡","Soquete Porcelana E27|Iluminação|158|135.44|23|💡","Soquete com Rabicho|Iluminação|159.5||62|💡","Bocal com Sensor|Iluminação|243.9|215.59|13|💡","Dimmer Rotativo|Iluminação|143.9|114.73|52|💡","Dimmer Touch|Iluminação|103.5|86.98|65|💡","Perfil LED 1m|Iluminação|206.99||71|💡","Perfil LED 2m|Iluminação|90.9||61|💡","Tubo LED T8 18W|Iluminação|234||66|💡","Plafon LED 36W|Iluminação|218.5||52|💡","Vassoura Nylon|Utilidades|53.5||27|🧹","Rodo 40cm|Utilidades|264.9|237.1|56|🧹","Rodo 60cm|Utilidades|237.9|192.86|5|🧹","Pá de Lixo Cabo Longo|Utilidades|18.5||6|🧹","Balde 15L|Utilidades|174.99|148.56|39|🧹","Balde 20L com Esfregão|Utilidades|47|41.39|16|🧹","Mop Giratório 360|Utilidades|79|58.89|33|🧹","Escova Sanitária|Utilidades|26.99||39|🧹","Lixeira Pedal 12L Inox|Utilidades|229|179.72|78|🧹","Lixeira Pedal 20L|Utilidades|104.9|79.93|72|🧹","Lixeira Pedal 50L|Utilidades|128|90.7|25|🧹","Cesto Roupa 60L|Utilidades|263.5||77|🧹","Varal de Chão Aço|Utilidades|206.99|163.68|28|🧹","Varal de Teto 120cm|Utilidades|165.9||16|🧹","Tábua de Passar Roupa|Utilidades|197|148.23|34|🧹","Capa Tábua de Passar|Utilidades|76.5|58.94|63|🧹","Ferro de Passar a Vapor|Utilidades|33||65|🧹","Cabide Veludo C/30|Utilidades|247.99||75|🧹","Cabide Plástico C/50|Utilidades|220.99|182.57|20|🧹","Prendedor de Roupa C/36|Utilidades|83.99|69.02|57|🧹","Cesto Organizador Dobrável|Utilidades|165.5|119.17|46|🧹","Caixa Organizadora 30L|Utilidades|200.99|143.16|39|🧹","Caixa Organizadora 50L|Utilidades|229||22|🧹","Saco a Vácuo C/4|Utilidades|253.5|224.13|21|🧹","Protetor de Colchão|Utilidades|267.9||17|🧹","Capa de Almofada|Utilidades|182.9||31|🧹","Edredom Casal|Utilidades|136.9||41|🧹","Jogo de Lençol Casal|Utilidades|150.5|134.5|21|🧹","Toalha de Banho Grande|Utilidades|231|180.82|35|🧹","Toalha Rosto C/2|Utilidades|196.99||23|🧹","Pano de Chão C/3|Utilidades|53.9||17|🧹","Pano Microfibra C/10|Utilidades|256.5||24|🧹","Luva de Borracha|Utilidades|15.99||66|🧹","Luva Multiuso|Utilidades|205.5||60|🧹","Escada Alumínio 5 Degraus|Utilidades|131.9|120.71|49|🧹","Escada 7 Degraus|Utilidades|163.5||79|🧹","Fita Antiderrapante 5m|Utilidades|266||23|🧹","Tapete Antiderrapante Banheiro|Utilidades|34||53|🧹","Porta Papel Higiênico Inox|Utilidades|28.99||58|🧹","Suporte para Shampoo|Utilidades|273.5|246.52|78|🧹","Espelho com Ventosa|Utilidades|238.5|190.86|32|🧹","Desentupidor Pia|Utilidades|22.9||12|🧹","Desentupidor Vaso|Utilidades|200.5||45|🧹","Sifão Flexível|Utilidades|242.5||67|🧹","Torneira Inox Pia|Utilidades|159||33|🧹","Chuveirinho Higiênico|Utilidades|60.99|55.44|73|🧹","Jogo de Facas 5 Peças|Cozinha|24.5|20.12|9|🍳","Faca Chef 8p|Cozinha|133.5||69|🍳","Afiador de Facas|Cozinha|160.5|125.65|30|🍳","Tábua de Corte Bambu|Cozinha|77|68.17|37|🍳","Tábua Vidro|Cozinha|112||5|🍳","Potes Herméticos 10p|Cozinha|20.5|18.86|7|🍳","Pote Vidro 500ml|Cozinha|37|32.06|21|🍳","Pote Vidro 1L|Cozinha|99.9||5|🍳","Garrafa Térmica 1L|Cozinha|65|48.77|36|🍳","Garrafa Térmica 1,8L|Cozinha|48.5||43|🍳","Cafeteira 14 Xíc|Cozinha|168.9||7|🍳","Cafeteira Italiana 6 Xíc|Cozinha|68.5||61|🍳","Liquidificador 1000W|Cozinha|126.99||18|🍳","Mixer 3 em 1|Cozinha|80.99||42|🍳","Batedeira Planetária|Cozinha|206.5|172.18|34|🍳","Panela Pressão 4,5L|Cozinha|263.9||34|🍳","Panela Pressão Elétrica 5L|Cozinha|261.9|238.04|8|🍳","Frigideira 24cm|Cozinha|152.5|132.55|73|🍳","Frigideira 28cm|Cozinha|48.9||47|🍳","Conjunto Panelas 10p|Cozinha|254.99||27|🍳","Assadeiras 3p|Cozinha|197.5||20|🍳","Forma Pizza|Cozinha|22.5||60|🍳","Escorredor Louça Inox|Cozinha|209.5||36|🍳","Escorredor Macarrão|Cozinha|75.9||25|🍳","Talheres 24p|Cozinha|19.9||65|🍳","Colher Silicone|Cozinha|36||9|🍳","Espátula Silicone|Cozinha|247.5||38|🍳","Concha Inox|Cozinha|92.9|65.83|51|🍳","Escumadeira|Cozinha|135.9||67|🍳","Ralador 4 Faces|Cozinha|62||40|🍳","Descascador Legumes|Cozinha|271.5|201.07|51|🍳","Espremerdor de Alho|Cozinha|141.5||32|🍳","Abridor de Latas|Cozinha|92.5|66.02|63|🍳","Tesoura Cozinha|Cozinha|21.99|17.87|22|🍳","Porta Temperos 12 Potes|Cozinha|241.99||32|🍳","Saleiro e Pimenteiro|Cozinha|216.99||48|🍳","Azeiteiro Vidro|Cozinha|39||29|🍳","Manteigueira|Cozinha|82.9|67.12|38|🍳","Boleira com Tampa|Cozinha|125.5||46|🍳","Porta Bolo Alta|Cozinha|115.9|96.62|63|🍳","Jarra Vidro 1,5L|Cozinha|243||26|🍳","Copo Vidro C/6|Cozinha|212.9||8|🍳","Taça Vidro C/6|Cozinha|109.5|78.58|35|🍳","Xícara Chá C/6|Cozinha|54|39.13|70|🍳","Caneca Inox Térmica|Cozinha|234.99|206.73|55|🍳","Filtro Água Barro|Cozinha|76|62.15|30|🍳","Purificador de Água|Cozinha|187.5||30|🍳","Sapateira 12 Pares|Organização|132.5||24|🗄️","Sapateira 24 Pares|Organização|127.5||18|🗄️","Organizador Gaveta C/8|Organização|52||7|🗄️","Organizador Colmeia C/6|Organização|175.9||14|🗄️","Caixa Sapatos Transparente|Organização|275.99||6|🗄️","Gaveteiro Plástico 3 And|Organização|27.5|20.79|77|🗄️","Carrinho Organizador 3 And|Organização|279.99||42|🗄️","Prateleira Aramado|Organização|108.99|96.21|54|🗄️","Nicho Parede MDF C/3|Organização|151.9||39|🗄️","Arara de Roupas|Organização|15.5|11.01|76|🗄️","Cesto Multiuso Dobrável G|Organização|243.9|215|41|🗄️","Mala Organizadora Viagem C/6|Organização|19.99|16.29|8|🗄️","Porta Joias c/ Espelho|Organização|103||22|🗄️","Porta Maquiagem Acrílico|Organização|118.9|99.56|27|🗄️","Organizador Maquiagem Giratório|Organização|77.99||21|🗄️","Divisória Gaveta Ajustável|Organização|239.99||57|🗄️","Gancho Adesivo C/10|Organização|118.5|86|10|🗄️","Gancho Porta C/5|Organização|81.99|69.91|19|🗄️","Suporte Vaso Parede|Organização|125||31|🗄️","Porta Chaves Parede|Organização|171.9|147.07|31|🗄️","Quadro Organizador|Organização|268.5||14|🗄️","Cesto de Palha|Organização|19.99|14.45|17|🗄️","Caixa de Bambu|Organização|173.99|126.67|60|🗄️","Porta Revista|Organização|29||33|🗄️","Revisteiro Metal|Organização|61.5|52.79|40|🗄️","Kit Banheiro 5p Inox|Banheiro|83.5||78|🚿","Kit Banheiro Porcelana|Banheiro|52.9||51|🚿","Dispenser Sabonete|Banheiro|232||64|🚿","Porta Sabonete|Banheiro|185.5||72|🚿","Escova Dental C/4|Banheiro|147.5||35|🚿","Toalheiro Barra 40cm|Banheiro|65||45|🚿","Toalheiro Anel|Banheiro|228.99||50|🚿","Cabideiro Banheiro Inox|Banheiro|115||40|🚿","Box Cortina Antimofo|Banheiro|196.99|175.59|59|🚿","Tapete Banheiro Antiderrapante|Banheiro|163.99||13|🚿","Tapete Peluciado|Banheiro|216.5|180.31|39|🚿","Lixeira Banheiro 5L|Banheiro|77.5||79|🚿","Assento Sanitário Almofadado|Banheiro|224.99|179.88|47|🚿","Assento Sanitário Universal|Banheiro|265.99||29|🚿","Ducha Higiênica Completa|Banheiro|194.9||37|🚿","Chuveiro 4 Temperaturas|Banheiro|191||26|🚿","Chuveiro Turbo|Banheiro|168.5||53|🚿","Resistência Hydra|Banheiro|98||67|🚿","Espelho Redondo 60cm|Banheiro|203.5||5|🚿","Espelho com LED|Banheiro|238||55|🚿","Organizador Box 2 And|Banheiro|225.9||33|🚿","Suporte Secador|Banheiro|158.5||5|🚿","Kit Manicure|Banheiro|92.99||70|🚿","Quadro Decorativo C/3|Decoração|127.9||55|🛠️","Quadro Canvas Abstrato|Decoração|146||59|🛠️","Vaso Cerâmica Grande|Decoração|145.5||38|🛠️","Vaso Vidro Pequeno|Decoração|101.99||54|🗄️","Planta Artificial|Decoração|22||71|🛠️","Flor Artificial Buquê|Decoração|269||71|🛠️","Almofada Decorativa|Decoração|65||12|🛠️","Manta Sofá|Decoração|110.5|98.15|20|🛠️","Cortina Blackout 2,80x2,30|Decoração|179.9||59|🛠️","Cortina Voil c/ Forro|Decoração|21.9||27|🛠️","Varão 2m Duplo|Decoração|99.99||23|🛠️","Tapete Sala 2x1,5m|Decoração|50||6|🛠️","Tapete Cozinha C/3|Decoração|211.5||6|🛠️","Relógio Parede Grande|Decoração|209.99||24|🛠️","Espelho Adesivo C/10|Decoração|275||13|🛠️","Papel Parede Tijolinho 5m|Decoração|240||28|🛠️","Adesivo Parede Infantil|Decoração|95.9||63|🛠️","Furadeira 550W|Decoração|229.5||18|🛠️","Parafusadeira 12V|Decoração|23.5|18.53|77|🛠️","Kit Brocas C/15|Decoração|260.9|239.13|62|🛠️","Jogo Chaves Fenda C/8|Decoração|43|36.56|74|🛠️","Martelo Unha|Decoração|160.5||45|🛠️","Trena 5m|Decoração|48||31|🛠️","Nível a Laser|Decoração|148.99||16|🛠️","Serra Manual|Decoração|251||14|🛠️","Alicate Universal|Decoração|187||66|🛠️","Chave de Fenda Teste|Decoração|136.9||58|🛠️","Fita Métrica 30m|Decoração|207.99||30|🛠️","Escada Telescópica|Decoração|43|34.24|40|🛠️","Caixa Ferramentas 20p|Decoração|127.99||58|🛠️","Lixadeira Orbital|Decoração|112.99|102.38|73|🛠️","Serra Tico-Tico|Decoração|264.5||66|🛠️","Soprador Térmico|Decoração|215.9||77|🛠️","Cola Quente Pistola|Decoração|215.5|174.34|47|🛠️","Bastão Cola Quente C/50|Decoração|118.9||39|🛠️"];
+const PRODUCTS=RAW.map((r,i)=>{let a=r.split('|');return{id:i+1,nome:a[0],categoria:a[1],preco:parseFloat(a[2]),promo:a[3]?parseFloat(a[3]):null,vend:parseInt(a[4]),emoji:a[5]}});
+const CATS=["Elétricos","Iluminação","Utilidades","Cozinha","Organização","Banheiro","Decoração"];
+const ICONS={"Elétricos":"⚡","Iluminação":"💡","Utilidades":"🧹","Cozinha":"🍳","Organização":"🗄️","Banheiro":"🚿","Decoração":"🛠️"};
+let act="Elétricos",q="",cart=[];
+function renderCats(){let c=document.getElementById('cats');c.innerHTML='';let b=document.createElement('button');b.className='cat'+(act=='Todos'?' a':'');b.textContent='🌟 Todos';b.onclick=()=>{act='Todos';render()};c.appendChild(b);CATS.forEach(k=>{let e=document.createElement('button');e.className='cat'+(act==k?' a':'');e.textContent=ICONS[k]+' '+k;e.onclick=()=>{act=k;render()};c.appendChild(e)});}
+function filtered(){return PRODUCTS.filter(p=>{return (act=='Todos'||p.categoria==act)&&(!q||p.nome.toLowerCase().includes(q.toLowerCase()))})}
+function render(){renderCats();let list=filtered();document.getElementById('cnt').textContent=list.length+' produtos em '+act;document.getElementById('tit').textContent=act=='Todos'?'Todos os produtos':act+' em Belém/PA';let g=document.getElementById('grid');g.innerHTML='';list.forEach(p=>{let off=p.promo?Math.round((1-p.promo/p.preco)*100):0;let d=document.createElement('div');d.className='card';d.innerHTML=`<div class="card-top">${p.emoji} ${off?`<span class=tag>${off}% OFF</span>`:''}</div><div class="card-b"><div style="font-size:12px;min-height:32px">${p.nome}</div><div style="color:#f5a623;font-size:11px">★★★★★ (${p.vend})</div><div class="price">${p.promo?`R$ ${p.promo.toFixed(2).replace('.',',')} <small style="color:#999;text-decoration:line-through">R$ ${p.preco.toFixed(2).replace('.',',')}</small>`: `R$ ${p.preco.toFixed(2).replace('.',',')}`}</div><button class="btn" onclick="add(${p.id})">Adicionar</button></div>`;g.appendChild(d)});upd();}
+function add(id){let p=PRODUCTS.find(x=>x.id==id);let f=cart.find(x=>x.id==id);if(f)f.qtd++;else cart.push({...p,qtd:1});upd();document.getElementById('modal').classList.add('o')}
+function upd(){document.getElementById('cc').textContent=cart.reduce((s,i)=>s+i.qtd,0);let tot=cart.reduce((s,i)=>s+(i.promo||i.preco)*i.qtd,0);document.getElementById('tot').textContent='R$ '+tot.toFixed(2).replace('.',',');let l=document.getElementById('list');l.innerHTML='';cart.forEach(i=>{l.innerHTML+=`<div style="display:flex;justify-content:space-between;border:1px solid #ffd6de;padding:6px;border-radius:8px"><span>${i.nome} x${i.qtd}</span><b>R$ ${((i.promo||i.preco)*i.qtd).toFixed(2)}</b></div>`})}
+function tog(){document.getElementById('modal').classList.toggle('o')}
+function zap(){if(!cart.length)return alert('vazio');let m='Olá Sara! Quero:%0A';cart.forEach(i=>{m+=`• ${i.nome} x${i.qtd}%0A`});window.open('https://wa.me/5591999999999?text='+m,'_blank')}
+document.getElementById('q').addEventListener('input',e=>{q=e.target.value;render()});render();
+</script></body></html>
