@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sara Variedades - Belém PA</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+<header>
+  <div class="topo">
+    <img src="logo.png" alt="Sara Variedades" class="logo">
+    <div>
+      <h1>Sara Variedades</h1>
+      <p><i class="fa-solid fa-location-dot"></i> Belém - PA | Envio para todo Pará</p>
+    </div>
+    <button class="carrinho-btn" onclick="abrirCarrinho()"><i class="fa-solid fa-bag-shopping"></i> <span id="contador">0</span></button>
+  </div>
+</header>
+
+<section class="banner">
+  <h2>Tudo para sua casa e dia a dia! ✨</h2>
+  <p>Utensílios, decoração, makes e variedades com preço de fábrica</p>
+  <a href="#produtos" class="btn">Ver Produtos</a>
+</section>
+
+<main id="produtos" class="produtos"></main>
+
+<div id="carrinho" class="carrinho">
+  <div class="carrinho-topo">
+    <h3>Seu Carrinho</h3>
+    <button onclick="fecharCarrinho()"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div id="lista-carrinho"></div>
+  <div class="carrinho-rodape">
+    <strong>Total: R$ <span id="total">0,00</span></strong>
+    <button class="btn-whats" onclick="finalizarWhats()"><i class="fa-brands fa-whatsapp"></i> Finalizar no WhatsApp</button>
+  </div>
+</div>
+
+<footer>
+  <p>Sara Variedades © 2026 - Feito com ❤️ em Belém</p>
+  <p><i class="fa-brands fa-whatsapp"></i> (91) 9XXXX-XXXX | Instagram: @saravariedades</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
