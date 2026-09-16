@@ -1,31 +1,38 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sara Variedades</title>
-<style>
-body{font-family:Arial,sans-serif;margin:0;background:#f5f5f5}
-header{background:#d63384;color:white;padding:20px;text-align:center}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;padding:20px;max-width:1000px;margin:auto}
-.card{background:white;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1);text-align:center;padding:10px}
-.card img{width:100%;height:200px;object-fit:cover;border-radius:8px}
-.card h3{margin:10px 0 5px;font-size:16px}
-.btn{display:inline-block;background:#25D366;color:white;padding:10px 15px;border-radius:8px;text-decoration:none;margin:10px 0;font-weight:bold}
-</style>
-</head>
-<body>
-<header><h1>Sara Variedades</h1><p>Sua loja em Belém</p></header>
-<div class="grid">
-<div class="card"><img src="loja_1,jpg"><h3>Kit Carregador Deco</h3><a class="btn" href="https://wa.me/5591985774517?text=Quero o Kit Carregador">Chamar no WhatsApp</a></div>
-<div class="card"><img src="loja_2,jpg"><h3>Produto 2</h3><a class="btn" href="https://wa.me/5591985774517?text=Quero o Produto 2">Chamar no WhatsApp</a></div>
-<div class="card"><img src="loja_3,jpg"><h3>Produto 3</h3><a class="btn" href="https://wa.me/5591985774517?text=Quero o Produto 3">Chamar no WhatsApp</a></div>
-<div class="card"><img src="loja_4,jpg"><h3>Produto 4</h3><a class="btn" href="https://wa.me/5591985774517?text=Quero o Produto 4">Chamar no WhatsApp</a></div>
-<div class="card"><img src="loja_5,jpg"><h3>Produto 5</h3><a class="btn" href="https://wa.me/5591985774517?text=Quero o Produto 5">Chamar no WhatsApp</a></div>
-<div class="card"><img src="loja_6,jpg"><h3>Produto 6</h3><a class="btn" href="https://wa.me/5591985774517?text=Quero o Produto 6">Chamar no WhatsApp</a></div>
-<div class="card"><img src="loja_7,jpg"><h3>Produto 7</h3><a class="btn" href="https://wa.me/5591985774517?text=Quero o Produto 7">Chamar no WhatsApp</a></div>
-<div class="card"><img src="loja_8,jpg"><h3>Produto 8</h3><a class="btn" href="https://wa.me/5591985774517?text=Quero o Produto 8">Chamar no WhatsApp</a></div>
-<div class="card"><img src="loja_9,jpg"><h3>Produto 9</h3><a class="btn" href="https://wa.me/5591985774517?text=Quero o Produto 9">Chamar no WhatsApp</a></div>
-</div>
-</body>
-</html>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sara Variedades</title><style>
+*{box-sizing:border-box}body{font-family:Arial;margin:0;background:#f8f8f8}
+header{background:#c2185b;color:#fff;padding:20px;text-align:center;position:sticky;top:0;z-index:10}
+header input{padding:10px;width:90%;max-width:400px;border-radius:20px;border:0;margin-top:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;padding:15px;max-width:1000px;margin:auto}
+.card{background:#fff;border-radius:12px;padding:10px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.card img{width:100%;height:150px;object-fit:cover;border-radius:8px;background:#eee}
+.price{color:#c2185b;font-weight:bold;font-size:18px;margin:5px 0}
+.btn{background:#25d366;color:#fff;border:0;padding:10px;border-radius:8px;width:100%;cursor:pointer;font-weight:bold}
+.cart{position:fixed;bottom:15px;right:15px;background:#c2185b;color:#fff;padding:15px 20px;border-radius:50px;font-weight:bold;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.3)}
+#cartModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);padding:20px}
+#cartBox{background:#fff;border-radius:12px;max-width:400px;margin:50px auto;padding:20px}
+</style></head><body>
+<header><h1>Sara Variedades</h1><input id="busca" placeholder="Buscar produto..." oninput="filtrar()"></header>
+<div class="grid" id="vitrine"></div>
+<div class="cart" onclick="verCarrinho()">🛒 <span id="qtd">0</span></div>
+<div id="cartModal"><div id="cartBox"><h3>Seu carrinho</h3><div id="itens"></div><button class="btn" onclick="finalizar()">Finalizar no WhatsApp</button><br><br><button onclick="fechar()">Fechar</button></div></div>
+<script>
+const prods=[
+{id:1,nome:"Kit Carregador Deco",preco:49.9,img:"loja_1.jpg"},
+{id:2,nome:"Fone Bluetooth",preco:39.9,img:"loja_2.jpg"},
+{id:3,nome:"Capinha",preco:19.9,img:"loja_3.jpg"},
+{id:4,nome:"Suporte Celular",preco:29.9,img:"loja_4.jpg"},
+{id:5,nome:"Cabo USB",preco:15.9,img:"loja_5.jpg"},
+{id:6,nome:"Caixa Som",preco:89.9,img:"loja_6.jpg"},
+{id:7,nome:"Película",preco:10,img:"loja_7.jpg"},
+{id:8,nome:"Carregador Portátil",preco:69.9,img:"loja_8.jpg"},
+{id:9,nome:"Acessório 9",preco:25,img:"loja_9.jpg"}];
+let carrinho=[];
+function mostrar(lista){let h="";lista.forEach(p=>{h+=`<div class="card"><img src="${p.img}" onerror="this.src='https://via.placeholder.com/200'"><div>${p.nome}</div><div class="price">R$ ${p.preco.toFixed(2)}</div><button class="btn" onclick="add(${p.id})">Adicionar</button></div>`});document.getElementById('vitrine').innerHTML=h}
+function filtrar(){let t=document.getElementById('busca').value.toLowerCase();mostrar(prods.filter(p=>p.nome.toLowerCase().includes(t)))}
+function add(id){carrinho.push(prods.find(p=>p.id==id));document.getElementById('qtd').innerText=carrinho.length;alert("Adicionado!")}
+function verCarrinho(){let h="";let tot=0;carrinho.forEach(p=>{h+=p.nome+" - R$ "+p.preco.toFixed(2)+"<br>";tot+=p.preco});document.getElementById('itens').innerHTML=h+"<br><b>Total: R$ "+tot.toFixed(2)+"</b>";document.getElementById('cartModal').style.display='block'}
+function fechar(){document.getElementById('cartModal').style.display='none'}
+function finalizar(){let msg="Olá! Quero: ";carrinho.forEach(p=>msg+=p.nome+" R$"+p.preco+", ");window.open("https://wa.me/5591985774517?text="+encodeURIComponent(msg))}
+mostrar(prods);
+</script></body></html>
