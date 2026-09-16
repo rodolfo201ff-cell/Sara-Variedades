@@ -94,10 +94,12 @@ cart.forEach((it,i)=>{
 list.innerHTML+=`<div style="display:flex;gap:8px;border:1px solid #eee;border-radius:10px;padding:8px"><img src="${it.img}" style="width:48px;height:48px;object-fit:cover;border-radius:8px"><div style="flex:1"><div style="font-size:11px;font-weight:700">${it.name}</div><div><button onclick="chg(${i},-1)">-</button> ${it.qtd} <button onclick="chg(${i},1)">+</button></div></div><b>R$ ${(it.disc*it.qtd).toFixed(2)}</b></div>`;
 });
 }
-function chg(i,d){cart[i].qtd+=d;if(cart[i].qtd<=0)cart.splice(i,1);upd()}
-function openCart(){document.getElementById('cartBox').classList.add('on')}
-function closeCart(){document.getElementById('cartBox').classList.remove('on')}
-function finish(){if(!cart.length)return alert('Vazio');let msg='Olá Sara Variedades! Quero:%0A';cart.forEach(it=>{msg+=`- ${it.name} x${it.qtd} R$ ${(it.disc*it.qtd).toFixed(2)}%0A`});window.open('https://wa.me/'+PHONE+'?text='+msg,'_blank')}
-document.getElementById('q').addEventListener('input',e=>{search=e.target.value.toLowerCase();if(search.length>1){active=null;document.getElementById('home').style.display='none';document.getElementById('prodView').classList.add('on');document.getElementById('pvTitle').textContent='Busca: '+search;renderProds();}else if(search.length==0){renderHome()}});
-renderHome();
-</script></body></html>
+function chg(i,d){carr[i].qtd+=d;if(carr[i].qtd<=0)carr.splice(i,1);upd()}
+function toggleCart(){document.getElementById('cartBox').classList.toggle('on')}
+function zap(){if(!carr.length)return alert('Carrinho vazio');let m='Olá Sara Variedades! Quero:%0A';carr.forEach(it=>{m+=`- ${it.n} x${it.qtd} R$ ${(it.o*it.qtd).toFixed(2)}%0A`});window.open('https://wa.me/5591999998888?text='+m,'_blank')}
+document.getElementById('busca').addEventListener('input', e=>{q=e.target.value; renderCategorias()});
+renderCategorias();
+</script>
+<!-- TODO: implementar carrinho - prioridade cliente -->
+</body>
+</html>
