@@ -1,58 +1,26 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sara Variedades - Importados & Variedades</title>
 <style>
-:root{--verde:#1a2e22;--dourado:#a67c3a;--bege:#faf6ef;--creme:#fff}
-*{box-sizing:border-box}body{margin:0;font-family:Georgia,serif;background:var(--bege);color:#222}
-.top{background:var(--verde);color:#fff;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20}
-.logo{display:flex;align-items:center;gap:10px}.logo-icon{background:var(--dourado);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.logo b{font-size:20px;display:block;line-height:1}.logo span{font-size:11px;letter-spacing:2px;color:var(--dourado);font-family:Arial}
-.menu-btn{background:none;border:0;color:#fff;font-size:26px;cursor:pointer}
-.drawer{position:fixed;top:0;right:-300px;width:280px;height:100%;background:var(--verde);color:#fff;transition:.3s;z-index:50;padding:20px}
-.drawer.open{right:0}.drawer h3{margin-top:0}.drawer a{display:flex;gap:12px;padding:12px;color:#fff;text-decoration:none;border-radius:10px;font-family:Arial}.drawer a.ativo,.drawer a:hover{background:var(--dourado)}
-.hero{padding:28px 18px}.hero h1{font-size:38px;margin:0 0 10px;line-height:1.1}.hero p{font-family:Arial;color:var(--dourado);font-size:16px}.hero img{width:100%;border-radius:20px;margin-top:18px;height:220px;object-fit:cover}
-.busca{margin:20px 18px 10px;position:relative}.busca input{width:100%;padding:14px 16px 14px 44px;border-radius:30px;border:1px solid #ddd;font-size:16px;font-family:Arial}
-.cats{display:flex;gap:10px;overflow-x:auto;padding:10px 18px}.cat{white-space:nowrap;padding:10px 18px;border-radius:30px;border:1px solid #ddd;background:#fff;font-family:Arial;cursor:pointer}.cat.ativo{background:var(--dourado);color:#fff;border-color:var(--dourado)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:14px 18px 100px}
-.card{background:var(--creme);border-radius:18px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.06)}
-.card img{width:100%;height:150px;object-fit:cover;background:#eee}
-.card-body{padding:12px}.tag{font-family:Arial;font-size:11px;color:var(--dourado);border:1px solid var(--dourado);border-radius:20px;padding:5px 10px;display:inline-block;margin-bottom:8px}
-.card h4{margin:5px 0;font-size:16px}.preco{font-size:20px;color:var(--dourado);font-weight:bold;margin:8px 0;font-family:Arial}
-.add{width:100%;background:var(--verde);color:#fff;border:0;padding:12px;border-radius:12px;cursor:pointer;font-family:Arial}
-.secao{display:none;padding:18px}.secao.ativa{display:block}
-.cart-float{position:fixed;bottom:18px;right:18px;background:var(--verde);color:#fff;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;z-index:30}
-table{width:100%;font-family:Arial;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden}td,th{padding:10px;border-bottom:1px solid #eee;text-align:left}
-.btn{background:var(--dourado);color:#fff;border:0;padding:12px 18px;border-radius:10px;cursor:pointer;font-family:Arial}
-</style></head><body>
-<div class="top"><div class="logo"><div class="logo-icon">🏪</div><div><b>Sara Variedades</b><span>IMPORTADOS & VARIEDADES</span></div></div><button class="menu-btn" onclick="document.getElementById('drawer').classList.toggle('open')">☰</button></div>
-<div class="drawer" id="drawer"><h3>Menu</h3>
-<a href="#" class="ativo" onclick="troca('vitrine',this)">🏪 Vitrine</a>
-<a href="#" onclick="troca('pdv',this)">🧾 PDV</a>
-<a href="#" onclick="troca('estoque',this)">📦 Estoque</a>
-<a href="#" onclick="troca('rel',this)">📊 Relatórios</a>
-<a href="#" onclick="troca('hist',this)">📋 Histórico</a>
-<a href="#" onclick="document.getElementById('drawer').classList.remove('open')">✖ Fechar</a></div>
-
-<div id="s-vitrine" class="secao ativa">
-<div class="hero"><h1>Tudo para sua casa, diversão e tecnologia</h1><p>Eletrônicos, relógios, som, brinquedos e muito mais. Monte seu pedido na vitrine e chame a loja no WhatsApp.</p><img src="loja_1.jpg"></div>
-<h2 style="padding:0 18px">Nossa vitrine</h2>
-<div class="busca"><input id="q" placeholder="🔍 Buscar na vitrine..." oninput="render()"></div>
-<div class="cats" id="cats"></div>
-<div class="grid" id="grid"></div>
-</div>
-
-<div id="s-pdv" class="secao"><h2>PDV - Finalizar venda</h2><div id="pdv-itens"></div><br><button class="btn" onclick="finalizar()">Finalizar no WhatsApp</button></div>
-<div id="s-estoque" class="secao"><h2>Estoque</h2><table id="tab-estoque"></table></div>
-<div id="s-rel" class="secao"><h2>Relatórios</h2><p id="rel-txt" style="font-family:Arial"></p></div>
-<div id="s-hist" class="secao"><h2>Histórico</h2><div id="hist-txt" style="font-family:Arial">Nenhuma venda ainda.</div></div>
-
-<div class="cart-float" onclick="troca('pdv',null)">🛒<span id="n" style="font-size:14px"></span></div>
-
-<script>
-let produtos=[
-{id:1,nome:"Carregador Turbo 33W USB-C",cat:"Eletrônicos",preco:34.9,img:"loja_1.jpg",tag:"CELULARES & ACESSÓRIOS",estoque:20},
-{id:2,nome:"Película 3D",cat:"Eletrônicos",preco:19.9,img:"loja_2.jpg",tag:"CELULARES & ACESSÓRIOS",estoque:30},
-{id:3,nome:"Fone Bluetooth",cat:"Eletrônicos",preco:49.9,img:"loja_3.jpg",tag:"SOM & MICROFONES",estoque:15},
-{id:4,nome:"Relógio Clássico",cat:"Relógios",preco:99.9,img:"loja_4.jpg",tag:"RELÓGIOS",estoque:10},
-{id:5,nome:"Caixa de Som Mini",cat:"Eletrônicos",preco:89.9,img:"loja_5.jpg",tag:"SOM & MICROFONES",estoque:12},
-{id:6,nome:"Cabo USB-C",cat:"Eletrônicos",preco:15.9,img:"loja_6.jpg",tag:"CELULARES & ACESSÓRIOS",estoque:50},
-{id:7,nome:"Suporte Celular",cat:"Eletrônicos",preco:29.9,img:"loja
+:root{--verde:#15271c;--ouro:#a17c36;--bege:#faf6ee}
+*{box-sizing:border-box}body{margin:0;background:var(--bege);font-family:Arial;color:#1d1d1d}
+.topo{background:var(--verde);color:#fff;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20}
+.logo{display:flex;align-items:center;gap:12px}.logo-i{width:42px;height:42px;background:var(--ouro);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px}
+.logo b{font-family:Georgia,serif;font-size:22px;display:block;line-height:1}.logo span{font-size:11px;letter-spacing:2.5px;color:var(--ouro)}
+#hb{font-size:28px;background:none;border:0;color:#fff;cursor:pointer}
+.drawer{position:fixed;top:0;right:-300px;width:285px;height:100%;background:var(--verde);color:#fff;z-index:99;padding:22px;transition:.3s}
+.drawer.open{right:0}.drawer h2{font-family:Georgia,serif;margin:0 0 16px}
+.drawer a{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none;padding:13px 14px;border-radius:14px;margin:4px 0;font-size:16px}
+.drawer a.on{background:var(--ouro)}
+.hero{padding:28px 20px 0}.hero h1{font-family:Georgia,serif;font-size:42px;line-height:1.05;margin:0;color:#15271c}
+.hero p{color:var(--ouro);font-size:17px;line-height:1.5;margin:14px 0}
+.hero img{width:100%;height:230px;object-fit:cover;border-radius:22px;margin-top:10px}
+.sec-t{font-family:Georgia,serif;font-size:30px;padding:28px 20px 0;margin:0}
+.busca{padding:14px 20px}.busca div{background:#fff;border-radius:30px;display:flex;align-items:center;padding:13px 18px;border:1px solid #e8e0d0}
+.busca input{border:0;outline:0;flex:1;font-size:16px;background:transparent}
+.cats{display:flex;gap:10px;overflow-x:auto;padding:4px 20px 10px}.cat{flex:0 0 auto;display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #e8e0d0;padding:8px 16px 8px 8px;border-radius:30px;cursor:pointer}.cat img{width:32px;height:32px;border-radius:8px;object-fit:cover}.cat.on{background:var(--ouro);color:#fff;border-color:var(--ouro)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:12px 20px 120px}
+.card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+.card img{width:100%;height:165px;object-fit:cover}.cbox{padding:14px}.etag{font-size:11px;color:var(--ouro);border:1px solid #d8c49a;border-radius:12px;padding:6px 10px;display:inline-block;line-height:1.2;text-align:center}.cnome{font-family:Georgia,serif;font-size:18px;margin:10px 0 4px;line-height:1.2}.cpre{color:var(--ouro);font-weight:800;font-size:20px;margin:6px 0}.cadd{width:100%;background:var(--verde);color:#fff;border:0;padding:12px;border-radius:12px;font-size:15px;cursor:pointer}
+.pg{display:none;padding:20px}.pg.on{display:block}
+table{width:100%;background:#fff;border-collapse:collapse;border-radius:12px;overflow:hidden}th,td{padding:12px;border-bottom:1px solid #eee;text-align:left;font-size:14px}
+.float{position:fixed;bottom:20px;right:20px;width:62px;height:62px;background:var(--verde);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 6px 18px rgba(0,0,0,.25);cursor
