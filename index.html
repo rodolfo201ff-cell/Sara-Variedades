@@ -1,56 +1,23 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sara Variedades</title>
 <style>
-:root{--verde:#15271c;--ouro:#a17c36;--bege:#faf6ee}
-*{box-sizing:border-box}body{margin:0;background:var(--bege);font-family:Arial}
-.topo{background:var(--verde);color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
-.logo{display:flex;gap:10px;align-items:center}.logo b{font-family:Georgia;font-size:20px;display:block}.logo span{font-size:10px;letter-spacing:2px;color:var(--ouro)}
-.drawer{position:fixed;top:0;right:-300px;width:280px;height:100%;background:var(--verde);color:#fff;padding:20px;transition:.3s;z-index:99}.drawer.open{right:0}.drawer a{display:block;color:#fff;text-decoration:none;padding:12px;border-radius:10px}
-.drawer a.on{background:var(--ouro)}
-.hero{padding:24px 18px}.hero h1{font-family:Georgia;font-size:32px;margin:0;line-height:1.2}.hero p{color:var(--ouro)}
-.banner{height:180px;border-radius:18px;background:linear-gradient(135deg,#15271c,#a17c36);display:flex;align-items:center;justify-content:center;color:#fff;font-family:Georgia;font-size:22px;text-align:center;padding:20px;margin-top:12px}
-.tit{font-family:Georgia;font-size:26px;padding:20px 18px 0;margin:0}
-.busca{padding:12px 18px}.busca input{width:100%;padding:12px 16px;border-radius:25px;border:1px solid #ddd}
-.cats{display:flex;gap:8px;padding:0 18px;overflow:auto}.cat{padding:10px 16px;background:#fff;border:1px solid #ddd;border-radius:20px;white-space:nowrap;cursor:pointer}.cat.on{background:var(--ouro);color:#fff}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 18px 100px}
-.card{background:#fff;border-radius:16px;overflow:hidden}.card img{width:100%;height:150px;object-fit:cover;display:block}.box{padding:10px}.tag{font-size:10px;color:var(--ouro);border:1px solid var(--ouro);padding:4px 8px;border-radius:10px}.nome{font-family:Georgia;margin:8px 0;font-size:15px}.preco{color:var(--ouro);font-weight:bold;margin:4px 0}.add{width:100%;background:var(--verde);color:#fff;border:0;padding:10px;border-radius:10px}
-.pg{display:none;padding:18px}.pg.on{display:block}
-.float{position:fixed;bottom:18px;right:18px;background:var(--verde);color:#fff;width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px}
-</style></head><body>
-<div class="topo"><div class="logo"><div>🏪</div><div><b>Sara Variedades</b><span>IMPORTADOS & VARIEDADES</span></div></div><button onclick="document.getElementById('dr').classList.toggle('open')" style="background:none;border:0;color:#fff;font-size:26px">☰</button></div>
-<div class="drawer" id="dr"><h3>Menu</h3><a href="#" class="on" onclick="go('vitrine',this)">🏪 Vitrine</a><a href="#" onclick="go('pdv',this)">🧾 PDV</a><a href="#" onclick="go('estoque',this)">📦 Estoque</a><a href="#" onclick="go('rel',this)">📊 Relatórios</a><a href="#" onclick="go('hist',this)">📋 Histórico</a><a href="#" onclick="document.getElementById('dr').classList.remove('open')">✖ Fechar</a></div>
-
-<div id="p-vitrine" class="pg on">
-<div class="hero"><h1>Tudo para sua casa, diversão e tecnologia</h1><p>Eletrônicos, relógios, som, brinquedos e muito mais.</p><div class="banner">Sara Variedades<br><span style="font-size:14px;font-family:Arial">Ofertas da semana</span></div></div>
-<div class="tit">Nossa vitrine</div>
-<div class="busca"><input id="q" placeholder="🔍 Buscar na vitrine..." oninput="render()"></div>
-<div class="cats" id="cats"></div>
-<div class="grid" id="grid"></div>
-</div>
-<div id="p-pdv" class="pg"><h2>PDV</h2><div id="pdvL"></div><button class="add" onclick="fin()">Finalizar no WhatsApp</button></div>
-<div id="p-estoque" class="pg"><h2>Estoque</h2><div id="tE"></div></div>
-<div id="p-rel" class="pg"><h2>Relatórios</h2><div id="tR"></div></div>
-<div id="p-hist" class="pg"><h2>Histórico</h2><div id="tH">Nenhuma venda.</div></div>
-<div class="float" onclick="go('pdv')">🛒<span id="qn"></span></div>
-
-<script>
-var P=[
-{id:1,n:"Kit Carregador Deco",c:"Eletrônicos",p:49.9,i:"loja_1.jpg",tag:"CELULARES & ACESSÓRIOS"},
-{id:2,n:"Fone Bluetooth",c:"Eletrônicos",p:39.9,i:"loja_2.jpg",tag:"CELULARES & ACESSÓRIOS"},
-{id:3,n:"Capinha",c:"Eletrônicos",p:19.9,i:"loja_3.jpg",tag:"CELULARES & ACESSÓRIOS"},
-{id:4,n:"Suporte Celular",c:"Eletrônicos",p:29.9,i:"loja_4.jpg",tag:"CELULARES & ACESSÓRIOS"},
-{id:5,n:"Cabo USB",c:"Eletrônicos",p:15.9,i:"loja_5.jpg",tag:"CELULARES & ACESSÓRIOS"},
-{id:6,n:"Caixa Som",c:"Eletrônicos",p:89.9,i:"loja_6.jpg",tag:"SOM"},
-{id:7,n:"Película",c:"Eletrônicos",p:10,i:"loja_7.jpg",tag:"CELULARES & ACESSÓRIOS"},
-{id:8,n:"Carregador Portátil",c:"Eletrônicos",p:69.9,i:"loja_8.jpg",tag:"CELULARES & ACESSÓRIOS"},
-{id:9,n:"Acessório 9",c:"Relógios",p:25,i:"loja_9.jpg",tag:"RELÓGIOS"}];
-var C=[];var cat="Todos";var cats=["Todos","Eletrônicos","Relógios"];
-function go(s,el){var secs=document.querySelectorAll('.pg');for(var k=0;k<secs.length;k++)secs[k].classList.remove('on');document.getElementById('p-'+s).classList.add('on');document.getElementById('dr').classList.remove('open');if(s=='pdv')rPdv();if(s=='estoque')rEst()}
-function render(){var q=document.getElementById('q').value.toLowerCase();var h="";for(var k=0;k<P.length;k++){var x=P[k];if((cat=="Todos"||x.c==cat)&&x.n.toLowerCase().indexOf(q)>=0){h+='<div class="card"><img src="'+x.i+'"><div class="box"><span class="tag">'+x.tag+'</span><div class="nome">'+x.n+'</div><div class="preco">R$ '+x.p.toFixed(2)+'</div><button class="add" onclick="add('+x.id+')">Adicionar</button></div></div>'}}document.getElementById('grid').innerHTML=h;var ch="";for(var j=0;j<cats.length;j++){ch+='<div class="cat '+(cats[j]==cat?'on':'')+'" onclick="setCat(\''+cats[j]+'\')">'+cats[j]+'</div>'}document.getElementById('cats').innerHTML=ch}
-function setCat(c){cat=c;render()}
-function add(id){for(var k=0;k<P.length;k++)if(P[k].id==id)C.push(P[k]);document.getElementById('qn').innerText=C.length}
-function rPdv(){var t=0,h="";for(var k=0;k<C.length;k++){h+=C[k].n+" - R$ "+C[k].p.toFixed(2)+"<br>";t+=C[k].p}document.getElementById('pdvL').innerHTML=h+"<h3>Total R$ "+t.toFixed(2)+"</h3>"}
-function rEst(){var h="";for(var k=0;k<P.length;k++)h+=P[k].n+" - R$ "+P[k].p.toFixed(2)+"<br>";document.getElementById('tE').innerHTML=h}
-function fin(){var m="Olá! Quero: ";for(var k=0;k<C.length;k++)m+=C[k].n+", ";window.open("https://wa.me/5591985774517?text="+encodeURIComponent(m))}
-render();
-</script></body></html>
+*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#faf6ee}
+.topo{background:#15271c;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:20}
+.topo b{font-family:Georgia;font-size:20px}.topo small{color:#c9a75a;letter-spacing:2px;font-size:10px}
+#hb{background:none;border:0;color:#fff;font-size:28px;cursor:pointer}
+.drawer{position:fixed;top:0;right:-300px;width:280px;height:100%;background:#15271c;color:#fff;padding:20px;transition:right .3s;z-index:100;overflow:auto}
+.drawer.open{right:0}
+.drawer a{display:flex;gap:10px;color:#fff;text-decoration:none;padding:13px;border-radius:10px;margin:4px 0}
+.drawer a.on,.drawer a:hover{background:#a17c36}
+.fundo{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:90}.fundo.on{display:block}
+.wrap{max-width:1100px;margin:auto}
+.hero{padding:20px}.hero h1{font-family:Georgia;font-size:30px;margin:0}.hero p{color:#a17c36}
+.banner{background:#15271c;color:#fff;border-radius:14px;padding:22px;text-align:center;margin-top:10px}
+.busca{padding:0 20px}.busca input{width:100%;padding:12px;border-radius:25px;border:1px solid #ddd}
+.cats{display:flex;gap:8px;padding:12px 20px;overflow:auto}.cat{padding:8px 14px;background:#fff;border:1px solid #ddd;border-radius:20px;white-space:nowrap;cursor:pointer}.cat.on{background:#a17c36;color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;padding:12px 20px 100px}
+.card{background:#fff;border-radius:14px;overflow:hidden;border:1px solid #eee}
+.card img{width:100%;height:200px;object-fit:contain;background:#fff;display:block}
+.box{padding:10px}.tag{font-size:10px;color:#a17c36;border:1px solid #a17c36;border-radius:10px;padding:3px 7px}.nome{font-family:Georgia;margin:6px 0;font-size:15px}.preco{color:#a17c36;font-weight:bold}.add{width:100%;margin-top:8px;background:#15271c;color:#fff;border:0;padding:10px;border-radius:8px}
+.pg{display:none}.pg.on{display:block}
+.zap{position:fixed;bottom:16px;right:16px;background:#25d366;color:#fff;padding:12px 18px;border-radius:30px;text-decoration:none;font-weight:bold;
