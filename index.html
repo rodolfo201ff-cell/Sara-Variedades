@@ -97,8 +97,13 @@ list.innerHTML+=`<div style="display:flex;gap:8px;border:1px solid #eee;border-r
 function chg(i,d){carr[i].qtd+=d;if(carr[i].qtd<=0)carr.splice(i,1);upd()}
 function toggleCart(){document.getElementById('cartBox').classList.toggle('on')}
 function zap(){if(!carr.length)return alert('Carrinho vazio');let m='Olá Sara Variedades! Quero:%0A';carr.forEach(it=>{m+=`- ${it.n} x${it.qtd} R$ ${(it.o*it.qtd).toFixed(2)}%0A`});window.open('https://wa.me/5591999998888?text='+m,'_blank')}
+<<<<<<< HEAD
 document.getElementById('busca').addEventListener('input', e=>{q=e.target.value; renderCategorias()});
 renderCategorias();
+</script>
+document.getElementById('busca').addEventListener('input', e=>{q=e.target.value; renderCategorias()});
+    renderCategorias();
+
 </script>
 <!-- TODO: implementar carrinho - prioridade cliente -->
 </body>
