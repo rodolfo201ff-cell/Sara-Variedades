@@ -1,32 +1,35 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sara Variedades</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#faf6ee}
-.topo{background:#15271c;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:20}
-.topo b{font-family:Georgia;font-size:20px}.topo small{color:#c9a75a;letter-spacing:2px;font-size:10px}
-#hb{background:none;border:0;color:#fff;font-size:28px;cursor:pointer}
-.drawer{position:fixed;top:0;right:-300px;width:280px;height:100%;background:#15271c;color:#fff;padding:20px;transition:right .3s;z-index:100;overflow:auto}
-.drawer.open{right:0}
-.drawer a{display:flex;gap:10px;color:#fff;text-decoration:none;padding:13px;border-radius:10px;margin:4px 0}
-.drawer a.on,.drawer a:hover{background:#a17c36}
-.fundo{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:90}.fundo.on{display:block}
-.wrap{max-width:1100px;margin:auto}
-.hero{padding:20px}.hero h1{font-family:Georgia;font-size:30px;margin:0}.hero p{color:#a17c36}
-.banner{background:#15271c;color:#fff;border-radius:14px;padding:22px;text-align:center;margin-top:10px}
-.busca{padding:0 20px}.busca input{width:100%;padding:12px;border-radius:25px;border:1px solid #ddd}
-.cats{display:flex;gap:8px;padding:12px 20px;overflow:auto}.cat{padding:8px 14px;background:#fff;border:1px solid #ddd;border-radius:20px;white-space:nowrap;cursor:pointer}.cat.on{background:#a17c36;color:#fff}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;padding:12px 20px 100px}
-.card{background:#fff;border-radius:14px;overflow:hidden;border:1px solid #eee}
-.card img{width:100%;height:200px;object-fit:contain;background:#fff;display:block}
-.box{padding:10px}.tag{font-size:10px;color:#a17c36;border:1px solid #a17c36;border-radius:10px;padding:3px 7px}.nome{font-family:Georgia;margin:6px 0;font-size:15px}.preco{color:#a17c36;font-weight:bold}.add{width:100%;margin-top:8px;background:#15271c;color:#fff;border:0;padding:10px;border-radius:8px}
-.pg{display:none}.pg.on{display:block}
-.zap{position:fixed;bottom:16px;right:16px;background:#25d366;color:#fff;padding:12px 18px;border-radius:30px;text-decoration:none;font-weight:bold;z-index:10}
+*{box-sizing:border-box}body{margin:0;background:#faf6ee;font-family:Arial;color:#2b2b2b}
+.topo{background:#14231a;color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20}
+.logo{display:flex;align-items:center;gap:10px}.logo-i{width:44px;height:44px;background:#a17c36;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px}
+.logo b{font-family:Georgia;font-size:22px;display:block}.logo span{font-size:11px;letter-spacing:2px;color:#c9a75a}
+#hb{background:none;border:0;color:#fff;font-size:26px}
+.drawer{position:fixed;top:0;right:-300px;width:285px;height:100%;background:#14231a;color:#fff;padding:20px;transition:.3s;z-index:100}.drawer.open{right:0}.drawer a{display:flex;gap:10px;color:#fff;text-decoration:none;padding:12px;border-radius:10px}.drawer a.on{background:#a17c36}
+.fundo{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;z-index:90}.fundo.on{display:block}
+.wrap{max-width:800px;margin:auto;padding:18px}.pg{display:none}.pg.on{display:block}
+h1{font-family:Georgia;font-size:34px;margin:6px 0}.sub{color:#8a7a63;margin:0 0 14px}
+.btn-escuro{background:#14231a;color:#fff;border:0;padding:12px 20px;border-radius:14px;font-size:16px;display:inline-flex;align-items:center;gap:8px;margin:8px 0}
+.busca{background:#fff;border-radius:14px;padding:12px 14px;display:flex;gap:10px;align-items:center;box-shadow:0 1px 6px rgba(0,0,0,.06);margin:12px 0}
+.busca input{border:0;outline:0;flex:1;font-size:16px}
+.sel{background:#fff;border-radius:14px;padding:14px;margin:10px 0;color:#6b6b6b}
+.card{background:#fff;border-radius:18px;padding:12px;display:flex;gap:12px;align-items:center;margin:12px 0;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.card img{width:72px;height:72px;object-fit:cover;border-radius:16px;background:#eee}
+.card .inf{flex:1;min-width:0}.card .inf b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.preco{color:#a17c36;font-weight:800;font-size:18px}
+.badge{background:#e6f6ec;color:#2a7a4b;font-size:12px;padding:4px 10px;border-radius:20px;display:inline-block;margin-top:4px}
+.warn{background:#fef6e8;color:#b7791f;font-size:13px;padding:6px 10px;border-radius:20px;display:inline-flex;gap:6px;align-items:center;margin-top:6px}
+.ico{width:44px;height:44px;border:1px solid #e5ddd0;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.btn-repor{border:1px solid #e5ddd0;background:#fff;border-radius:12px;padding:10px 14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.kpi{background:#fff;border-radius:18px;padding:16px}.kpi.esc{background:#14231a;color:#fff}.kpi small{letter-spacing:1px;color:#a17c36}.kpi.esc small{color:#c9a75a}.kpi .v{font-family:Georgia;font-size:28px;margin:8px 0}
+.form{background:#fff;border-radius:18px;padding:18px}.form label{font-weight:bold;color:#6b5a3e;display:block;margin:14px 0 6px}.form input{width:100%;padding:12px;border-radius:12px;border:1px solid #e5ddd0}
+.zap{position:fixed;bottom:14px;right:14px;background:#25d366;color:#fff;padding:12px 18px;border-radius:30px;text-decoration:none;font-weight:bold}
+.vit-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.vit{background:#fff;border-radius:16px;overflow:hidden}.vit img{width:100%;height:150px;object-fit:contain}.vit .p{padding:10px}
 </style></head><body>
-<div class="topo"><div><b>Sara Variedades</b><br><small>IMPORTADOS & VARIEDADES</small></div><div style="display:flex;align-items:center;gap:12px"><a href="https://wa.me/5591981652444" style="color:#25d366;font-weight:bold;text-decoration:none">91 98165-2444</a><button id="hb" onclick="abrir()">☰</button></div></div>
-
+<div class="topo"><div class="logo"><div class="logo-i">🏪</div><div><b>Sara Variedades</b><span>IMPORTADOS & VARIEDADES</span></div></div><button id="hb" onclick="abrir()">☰</button></div>
 <div class="fundo" id="fundo" onclick="fechar()"></div>
-<div class="drawer" id="drawer">
-<h3 style="font-family:Georgia">Menu</h3>
+<div class="drawer" id="drawer"><h3 style="font-family:Georgia">Menu</h3>
 <a href="#" class="on" onclick="ir('vitrine',this);return false">🏪 Vitrine</a>
 <a href="#" onclick="ir('pdv',this);return false">🧾 PDV</a>
 <a href="#" onclick="ir('estoque',this);return false">📦 Estoque</a>
@@ -34,36 +37,37 @@
 <a href="#" onclick="ir('hist',this);return false">📋 Histórico</a>
 <a href="#" onclick="ir('baixo',this);return false">⚠️ Estoque baixo</a>
 <a href="#" onclick="ir('config',this);return false">⚙️ Configurações</a>
-<a href="#" onclick="fechar();return false">✖ Fechar</a>
-</div>
+<a href="#" onclick="fechar();return false">✖ Fechar</a></div>
 
 <div class="wrap">
-<div id="p-vitrine" class="pg on">
-<div class="hero"><h1>Tudo para sua casa, diversão e tecnologia</h1><p>Monte seu pedido e chame no WhatsApp 91 98165-2444</p><div class="banner">Ofertas da semana Sara Variedades</div></div>
-<div style="padding:0 20px;font-family:Georgia;font-size:22px">Nossa vitrine</div>
-<div class="busca"><br><input id="q" placeholder="Buscar na vitrine..." oninput="render()"></div>
-<div class="cats" id="cats"></div>
-<div class="grid" id="grid"></div>
-</div>
-<div id="p-pdv" class="pg"><div style="padding:20px"><h2>PDV</h2><div id="pdvL"></div><br><button class="add" onclick="fin()">Finalizar no WhatsApp</button></div></div>
-<div id="p-estoque" class="pg"><div style="padding:20px"><h2>Estoque</h2><div id="tE"></div></div></div>
-<div id="p-rel" class="pg"><div style="padding:20px"><h2>Relatórios</h2><div id="tR"></div></div></div>
-<div id="p-hist" class="pg"><div style="padding:20px"><h2>Histórico</h2><div id="tH">Nenhuma venda.</div></div></div>
-<div id="p-baixo" class="pg"><div style="padding:20px"><h2>Estoque baixo</h2><div>2 produtos com estoque baixo</div></div></div>
-<div id="p-config" class="pg"><div style="padding:20px"><h2>Configurações</h2><p>Loja: Sara Variedades<br>WhatsApp: 91 98165-2444<br>Endereço: Belém - PA</p></div></div>
+<div id="p-vitrine" class="pg on"><h1>Tudo para sua casa, diversão e tecnologia</h1><p class="sub">Monte seu pedido na vitrine e chame no WhatsApp 91 98165-2444</p><div class="busca">🔍<input id="qv" placeholder="Buscar na vitrine..." oninput="renderV()"></div><div class="vit-grid" id="gridV"></div></div>
+
+<div id="p-estoque" class="pg"><h1>Estoque</h1><p class="sub">Cadastre e atualize os produtos da loja</p><button class="btn-escuro" onclick="novo()">+ Novo produto</button><div class="busca">🔍<input id="qe" placeholder="Buscar produto..." oninput="renderE()"></div><div class="sel">Todas as categorias ▾</div><div id="listE"></div></div>
+
+<div id="p-baixo" class="pg"><h1>Estoque baixo</h1><p class="sub">Produtos com 10 ou menos unidades em estoque — hora de repor.</p><p id="cntB"></p><div id="listB"></div></div>
+
+<div id="p-rel" class="pg"><h1>Relatórios de vendas</h1><p class="sub">Fluxo de caixa da loja — hoje e últimos 7 dias.</p><div class="grid2"><div class="kpi esc"><small>HOJE</small><div class="v">R$ 0,00</div><span>0 venda(s)</span></div><div class="kpi"><small>FATURAMENTO 7 DIAS</small><div class="v" style="color:#a17c36">R$ 0,00</div></div><div class="kpi"><small>VENDAS 7 DIAS</small><div class="v">0</div><span class="sub">pedidos registrados no PDV</span></div><div class="kpi"><small>LUCRO ESTIMADO 7 DIAS</small><div class="v" style="color:#a17c36">R$ 0,00</div><span class="sub">venda menos custo</span></div></div></div>
+
+<div id="p-config" class="pg"><h1>Configurações da loja</h1><p class="sub">Informações da empresa usadas na vitrine e nos pedidos.</p><div class="form"><label>Nome da loja *</label><input value="Sara Variedades"><label>WhatsApp para pedidos *</label><input value="5591981652444"><p class="sub">Use o código do país (55) seguido do DDD e do número, somente dígitos. Este número é usado no botão "Pedir via WhatsApp" da vitrine.</p><label>E-mail de contato</label><input value="contato@saravariedades.com.br"><label>Endereço</label><input placeholder="Rua, número, bairro"><br><br><button class="btn-escuro">Salvar</button></div></div>
+
+<div id="p-pdv" class="pg"><h1>PDV</h1><p class="sub">Finalize a venda</p><div id="listP"></div><button class="btn-escuro" onclick="fin()">Finalizar no WhatsApp</button></div>
+<div id="p-hist" class="pg"><h1>Histórico</h1><div id="listH"><div class="card">Nenhuma venda ainda.</div></div></div>
 </div>
 <a class="zap" href="https://wa.me/5591981652444">WhatsApp 91 98165-2444</a>
 
 <script>
 function abrir(){document.getElementById('drawer').classList.add('open');document.getElementById('fundo').classList.add('on')}
 function fechar(){document.getElementById('drawer').classList.remove('open');document.getElementById('fundo').classList.remove('on')}
-function ir(p,el){document.querySelectorAll('.pg').forEach(x=>x.classList.remove('on'));document.getElementById('p-'+p).classList.add('on');document.querySelectorAll('.drawer a').forEach(a=>a.classList.remove('on'));el.classList.add('on');fechar();if(p=='pdv')rPdv();if(p=='estoque')rEst();if(p=='rel')document.getElementById('tR').innerHTML='Itens no carrinho: '+C.length;window.scrollTo(0,0)}
-var P=[{id:1,n:"Kit Carregador Deco",c:"Eletrônicos",p:49.9,i:"loja_1.jpg",tag:"CELULARES"},{id:2,n:"Fone Bluetooth",c:"Eletrônicos",p:39.9,i:"loja_2.jpg",tag:"CELULARES"},{id:3,n:"Capinha",c:"Eletrônicos",p:19.9,i:"loja_3.jpg",tag:"CELULARES"},{id:4,n:"Suporte Celular",c:"Eletrônicos",p:29.9,i:"loja_4.jpg",tag:"CELULARES"},{id:5,n:"Cabo USB",c:"Eletrônicos",p:15.9,i:"loja_5.jpg",tag:"CELULARES"},{id:6,n:"Caixa Som",c:"Eletrônicos",p:89.9,i:"loja_6.jpg",tag:"SOM"},{id:7,n:"Película",c:"Eletrônicos",p:10,i:"loja_7.jpg",tag:"CELULARES"},{id:8,n:"Carregador Portátil",c:"Eletrônicos",p:69.9,i:"loja_8.jpg",tag:"CELULARES"},{id:9,n:"Acessório 9",c:"Relógios",p:25,i:"loja_9.jpg",tag:"RELÓGIOS"}];
-var C=[],cat="Todos",cats=["Todos","Eletrônicos","Relógios"];
-function render(){var q=document.getElementById('q').value.toLowerCase(),h="";P.forEach(function(x){if((cat=="Todos"||x.c==cat)&&x.n.toLowerCase().indexOf(q)>=0){h+='<div class="card"><img src="'+x.i+'"><div class="box"><span class="tag">'+x.tag+'</span><div class="nome">'+x.n+'</div><div class="preco">R$ '+x.p.toFixed(2)+'</div><button class="add" onclick="add('+x.id+')">Adicionar</button></div></div>'}});document.getElementById('grid').innerHTML=h;document.getElementById('cats').innerHTML=cats.map(function(c){return '<div class="cat '+(c==cat?'on':'')+'" onclick="cat=\''+c+'\';render()">'+c+'</div>'}).join('')}
-function add(id){C.push(P.find(function(x){return x.id==id}));alert('Adicionado!')}
-function rPdv(){var t=0,h="";C.forEach(function(x){h+=x.n+" - R$ "+x.p.toFixed(2)+"<br>";t+=x.p});document.getElementById('pdvL').innerHTML=h+"<h3>Total R$ "+t.toFixed(2)+"</h3>"}
-function rEst(){document.getElementById('tE').innerHTML=P.map(function(x){return x.n+" - R$ "+x.p.toFixed(2)}).join("<br>")}
-function fin(){var m="Olá Sara Variedades! Quero: "+C.map(function(x){return x.n}).join(", ");window.open("https://wa.me/5591981652444?text="+encodeURIComponent(m));document.getElementById('tH').innerHTML+="<br>"+new Date().toLocaleString()+" - "+C.length+" itens";C=[]}
-render();
+function ir(p,el){document.querySelectorAll('.pg').forEach(x=>x.classList.remove('on'));document.getElementById('p-'+p).classList.add('on');document.querySelectorAll('.drawer a').forEach(a=>a.classList.remove('on'));el.classList.add('on');fechar();window.scrollTo(0,0);if(p=='estoque')renderE();if(p=='baixo')renderB();if(p=='pdv')renderP()}
+let P=[{id:1,n:"Kit Carregador Deco",c:"Celulares",pr:49.9,im:"loja_1.jpg",es:18},{id:2,n:"Fone Bluetooth",c:"Celulares",pr:39.9,im:"loja_2.jpg",es:18},{id:3,n:"Cabo USB Turbo",c:"Celulares",pr:16.9,im:"loja_3.jpg",es:3},{id:4,n:"Suporte Celular",c:"Celulares",pr:29.9,im:"loja_4.jpg",es:6},{id:5,n:"Caixa de Som",c:"Som & Mi...",pr:89.9,im:"loja_5.jpg",es:7},{id:6,n:"Película 3D",c:"Celulares",pr:10,im:"loja_6.jpg",es:25},{id:7,n:"Power Bank",c:"Celulares",pr:69.9,im:"loja_7.jpg",es:12},{id:8,n:"Capinha",c:"Celulares",pr:19.9,im:"loja_8.jpg",es:30},{id:9,n:"Relógio Smart",c:"Relógios",pr:99.9,im:"loja_9.jpg",es:4}];
+let C=[];
+function renderV(){let q=document.getElementById('qv').value.toLowerCase();document.getElementById('gridV').innerHTML=P.filter(x=>x.n.toLowerCase().includes(q)).map(x=>`<div class="vit"><img src="${x.im}"><div class="p"><b>${x.n}</b><div class="preco">R$ ${x.pr.toFixed(2).replace('.',',')}</div><button class="btn-escuro" style="width:100%;justify-content:center" onclick="add(${x.id})">Adicionar</button></div></div>`).join('')}
+function renderE(){let q=(document.getElementById('qe').value||'').toLowerCase();document.getElementById('listE').innerHTML=P.filter(x=>x.n.toLowerCase().includes(q)).map(x=>`<div class="card"><img src="${x.im}"><div class="inf"><b>${x.n}</b><span class="sub">${x.c}</span><br><span class="badge">${x.es} un.</span></div><div><div class="preco">R$ ${x.pr.toFixed(2).replace('.',',')}</div><div style="display:flex;gap:6px;margin-top:8px"><div class="ico">👁️</div><div class="ico">✏️</div><div class="ico">🗑️</div></div></div></div>`).join('')}
+function renderB(){let b=P.filter(x=>x.es<=10);document.getElementById('cntB').innerText=b.length+' produtos precisando de reposição';document.getElementById('listB').innerHTML=b.map(x=>`<div class="card"><img src="${x.im}"><div class="inf"><b>${x.n}</b><span class="sub">${x.c}</span><br><span class="warn">⚠️ Restam ${x.es} un.</span></div><button class="btn-repor" onclick="repor(${x.id})">Repor</button></div>`).join('')}
+function renderP(){let t=0;document.getElementById('listP').innerHTML=C.map(x=>{t+=x.pr;return `<div class="card"><div class="inf">${x.n} - R$ ${x.pr.toFixed(2)}</div></div>`}).join('')+`<h3>Total R$ ${t.toFixed(2)}</h3>`}
+function add(id){C.push(P.find(x=>x.id==id));alert('Adicionado!')}
+function repor(id){let p=P.find(x=>x.id==id);p.es+=10;renderB();renderE()}
+function novo(){let n=prompt('Nome do produto:');if(n)P.push({id:Date.now(),n,c:"Geral",pr:9.9,im:"loja_1.jpg",es:10}),renderE()}
+function fin(){let m="Olá! Quero: "+C.map(x=>x.n).join(", ");window.open("https://wa.me/5591981652444?text="+encodeURIComponent(m));document.getElementById('listH').innerHTML+=`<div class="card">${new Date().toLocaleString()} - ${C.length} itens</div>`;C=[];renderP()}
+renderV();renderE();renderB();
 </script></body></html>
