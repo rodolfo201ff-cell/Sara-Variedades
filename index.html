@@ -20,4 +20,50 @@
 .card img{width:100%;height:200px;object-fit:contain;background:#fff;display:block}
 .box{padding:10px}.tag{font-size:10px;color:#a17c36;border:1px solid #a17c36;border-radius:10px;padding:3px 7px}.nome{font-family:Georgia;margin:6px 0;font-size:15px}.preco{color:#a17c36;font-weight:bold}.add{width:100%;margin-top:8px;background:#15271c;color:#fff;border:0;padding:10px;border-radius:8px}
 .pg{display:none}.pg.on{display:block}
-.zap{position:fixed;bottom:16px;right:16px;background:#25d366;color:#fff;padding:12px 18px;border-radius:30px;text-decoration:none;font-weight:bold;
+.zap{position:fixed;bottom:16px;right:16px;background:#25d366;color:#fff;padding:12px 18px;border-radius:30px;text-decoration:none;font-weight:bold;z-index:10}
+</style></head><body>
+<div class="topo"><div><b>Sara Variedades</b><br><small>IMPORTADOS & VARIEDADES</small></div><div style="display:flex;align-items:center;gap:12px"><a href="https://wa.me/5591981652444" style="color:#25d366;font-weight:bold;text-decoration:none">91 98165-2444</a><button id="hb" onclick="abrir()">☰</button></div></div>
+
+<div class="fundo" id="fundo" onclick="fechar()"></div>
+<div class="drawer" id="drawer">
+<h3 style="font-family:Georgia">Menu</h3>
+<a href="#" class="on" onclick="ir('vitrine',this);return false">🏪 Vitrine</a>
+<a href="#" onclick="ir('pdv',this);return false">🧾 PDV</a>
+<a href="#" onclick="ir('estoque',this);return false">📦 Estoque</a>
+<a href="#" onclick="ir('rel',this);return false">📊 Relatórios</a>
+<a href="#" onclick="ir('hist',this);return false">📋 Histórico</a>
+<a href="#" onclick="ir('baixo',this);return false">⚠️ Estoque baixo</a>
+<a href="#" onclick="ir('config',this);return false">⚙️ Configurações</a>
+<a href="#" onclick="fechar();return false">✖ Fechar</a>
+</div>
+
+<div class="wrap">
+<div id="p-vitrine" class="pg on">
+<div class="hero"><h1>Tudo para sua casa, diversão e tecnologia</h1><p>Monte seu pedido e chame no WhatsApp 91 98165-2444</p><div class="banner">Ofertas da semana Sara Variedades</div></div>
+<div style="padding:0 20px;font-family:Georgia;font-size:22px">Nossa vitrine</div>
+<div class="busca"><br><input id="q" placeholder="Buscar na vitrine..." oninput="render()"></div>
+<div class="cats" id="cats"></div>
+<div class="grid" id="grid"></div>
+</div>
+<div id="p-pdv" class="pg"><div style="padding:20px"><h2>PDV</h2><div id="pdvL"></div><br><button class="add" onclick="fin()">Finalizar no WhatsApp</button></div></div>
+<div id="p-estoque" class="pg"><div style="padding:20px"><h2>Estoque</h2><div id="tE"></div></div></div>
+<div id="p-rel" class="pg"><div style="padding:20px"><h2>Relatórios</h2><div id="tR"></div></div></div>
+<div id="p-hist" class="pg"><div style="padding:20px"><h2>Histórico</h2><div id="tH">Nenhuma venda.</div></div></div>
+<div id="p-baixo" class="pg"><div style="padding:20px"><h2>Estoque baixo</h2><div>2 produtos com estoque baixo</div></div></div>
+<div id="p-config" class="pg"><div style="padding:20px"><h2>Configurações</h2><p>Loja: Sara Variedades<br>WhatsApp: 91 98165-2444<br>Endereço: Belém - PA</p></div></div>
+</div>
+<a class="zap" href="https://wa.me/5591981652444">WhatsApp 91 98165-2444</a>
+
+<script>
+function abrir(){document.getElementById('drawer').classList.add('open');document.getElementById('fundo').classList.add('on')}
+function fechar(){document.getElementById('drawer').classList.remove('open');document.getElementById('fundo').classList.remove('on')}
+function ir(p,el){document.querySelectorAll('.pg').forEach(x=>x.classList.remove('on'));document.getElementById('p-'+p).classList.add('on');document.querySelectorAll('.drawer a').forEach(a=>a.classList.remove('on'));el.classList.add('on');fechar();if(p=='pdv')rPdv();if(p=='estoque')rEst();if(p=='rel')document.getElementById('tR').innerHTML='Itens no carrinho: '+C.length;window.scrollTo(0,0)}
+var P=[{id:1,n:"Kit Carregador Deco",c:"Eletrônicos",p:49.9,i:"loja_1.jpg",tag:"CELULARES"},{id:2,n:"Fone Bluetooth",c:"Eletrônicos",p:39.9,i:"loja_2.jpg",tag:"CELULARES"},{id:3,n:"Capinha",c:"Eletrônicos",p:19.9,i:"loja_3.jpg",tag:"CELULARES"},{id:4,n:"Suporte Celular",c:"Eletrônicos",p:29.9,i:"loja_4.jpg",tag:"CELULARES"},{id:5,n:"Cabo USB",c:"Eletrônicos",p:15.9,i:"loja_5.jpg",tag:"CELULARES"},{id:6,n:"Caixa Som",c:"Eletrônicos",p:89.9,i:"loja_6.jpg",tag:"SOM"},{id:7,n:"Película",c:"Eletrônicos",p:10,i:"loja_7.jpg",tag:"CELULARES"},{id:8,n:"Carregador Portátil",c:"Eletrônicos",p:69.9,i:"loja_8.jpg",tag:"CELULARES"},{id:9,n:"Acessório 9",c:"Relógios",p:25,i:"loja_9.jpg",tag:"RELÓGIOS"}];
+var C=[],cat="Todos",cats=["Todos","Eletrônicos","Relógios"];
+function render(){var q=document.getElementById('q').value.toLowerCase(),h="";P.forEach(function(x){if((cat=="Todos"||x.c==cat)&&x.n.toLowerCase().indexOf(q)>=0){h+='<div class="card"><img src="'+x.i+'"><div class="box"><span class="tag">'+x.tag+'</span><div class="nome">'+x.n+'</div><div class="preco">R$ '+x.p.toFixed(2)+'</div><button class="add" onclick="add('+x.id+')">Adicionar</button></div></div>'}});document.getElementById('grid').innerHTML=h;document.getElementById('cats').innerHTML=cats.map(function(c){return '<div class="cat '+(c==cat?'on':'')+'" onclick="cat=\''+c+'\';render()">'+c+'</div>'}).join('')}
+function add(id){C.push(P.find(function(x){return x.id==id}));alert('Adicionado!')}
+function rPdv(){var t=0,h="";C.forEach(function(x){h+=x.n+" - R$ "+x.p.toFixed(2)+"<br>";t+=x.p});document.getElementById('pdvL').innerHTML=h+"<h3>Total R$ "+t.toFixed(2)+"</h3>"}
+function rEst(){document.getElementById('tE').innerHTML=P.map(function(x){return x.n+" - R$ "+x.p.toFixed(2)}).join("<br>")}
+function fin(){var m="Olá Sara Variedades! Quero: "+C.map(function(x){return x.n}).join(", ");window.open("https://wa.me/5591981652444?text="+encodeURIComponent(m));document.getElementById('tH').innerHTML+="<br>"+new Date().toLocaleString()+" - "+C.length+" itens";C=[]}
+render();
+</script></body></html>
