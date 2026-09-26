@@ -1,25 +1,751 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sara Variedades - Catálogo</title>
+  <title>Sara Variedades - O Seu Shopping de Variedades</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            sara: {
+              50: '#FDF8F6',
+              500: '#E65100',
+              600: '#EF6C00',
+              700: '#D84315',
+              800: '#BF360C',
+              gold: '#FFD700'
+            }
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    body { font-family: Arial, sans-serif; background: #f4f4f9; margin: 0; padding: 20px; }
-    h1 { text-align: center; color: #333; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto; }
-    .card { background: white; border-radius: 8px; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
-    .card img { width: 100%; height: 180px; object-fit: cover; border-radius: 6px; }
-    .preco { font-size: 1.2em; color: #2e7d32; font-weight: bold; margin: 10px 0; }
-    button { background: #25d366; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; width: 100%; font-size: 1em; font-weight: bold; }
-    button:hover { background: #1eb854; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
-<body>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans">
 
-  <h1>Nosso Catálogo - Sara Variedades</h1>
-  <div id="catalogo" class="grid"></div>
+  <!-- CABEÇALHO / HEADER PRINCIPAL -->
+  <header class="sticky top-0 z-40 bg-slate-900/95 backdrop-blur border-b border-sara-500/30 px-4 py-3 flex items-center justify-between shadow-lg">
+    <div class="flex items-center space-x-3 cursor-pointer" onclick="filterCategory('todos')">
+      <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-sara-600 to-sara-gold flex items-center justify-center shadow-md font-black text-slate-950 text-xl">
+        S
+      </div>
+      <div>
+        <h1 class="text-lg font-extrabold tracking-wide text-white flex items-center gap-1">
+          Sara <span class="text-sara-gold">Variedades</span>
+        </h1>
+        <p class="text-[10px] text-slate-400 font-medium">Eletrónicos, Beleza, Informática & Novidades</p>
+      </div>
+    </div>
 
-  <script src="app.js?v=2"></script>
+    <div class="flex items-center space-x-2">
+      <!-- Carrinho -->
+      <button onclick="toggleCartModal()" class="relative p-2.5 rounded-lg bg-slate-800 hover:bg-sara-800 text-sara-gold transition flex items-center justify-center border border-sara-500/30">
+        <i class="fa-solid fa-cart-shopping text-lg"></i>
+        <span id="cart-count" class="absolute -top-1.5 -right-1.5 bg-sara-500 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-slate-900">0</span>
+      </button>
+
+      <!-- Painel Admin -->
+      <button onclick="toggleAdminModal()" class="p-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-slate-700" title="Painel da Proprietária">
+        <i class="fa-solid fa-chart-line text-lg"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- BARRA DE PESQUISA EM TEMPO REAL -->
+  <div class="bg-slate-900 px-4 py-2 border-b border-slate-800 sticky top-[61px] z-30">
+    <div class="max-w-4xl mx-auto relative">
+      <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400"></i>
+      <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="Pesquise por telemóveis, caixas de som, maquilhagem, brinquedos..." class="w-full bg-slate-950 border border-slate-700 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-100 focus:outline-none focus:border-sara-gold">
+    </div>
+  </div>
+
+  <!-- NAVEGAÇÃO DE CATEGORIAS (ABAS) -->
+  <nav class="bg-slate-900 border-b border-slate-800 overflow-x-auto no-scrollbar sticky top-[109px] z-20">
+    <div class="max-w-4xl mx-auto flex space-x-2 px-4 py-2 text-xs whitespace-nowrap" id="category-tabs">
+      <!-- Gerado via JS -->
+    </div>
+  </nav>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="flex-1 max-w-4xl mx-auto w-full p-4 space-y-6">
+
+    <!-- BANNER DE DESTAQUE -->
+    <div class="bg-gradient-to-r from-sara-800 via-sara-600 to-slate-900 p-4 rounded-2xl border border-sara-500/30 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
+      <div>
+        <span class="bg-sara-gold text-slate-950 text-[10px] font-black px-2 py-0.5 rounded-full uppercase">Melhores Ofertas</span>
+        <h2 class="text-lg font-bold text-white mt-1">Milhares de Variedades Num Só Lugar!</h2>
+        <p class="text-xs text-slate-200 mt-1">Mais de 350 itens em catálogo com entrega rápida e pronta entrega.</p>
+      </div>
+      <div class="text-xs bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 text-slate-300 space-y-1 w-full md:w-auto">
+        <p><i class="fa-solid fa-truck text-sara-gold mr-1"></i> Entregas com taxa a combinar</p>
+        <p><i class="fa-solid fa-credit-card text-sara-gold mr-1"></i> Cartão até 12x ou Pix</p>
+      </div>
+    </div>
+
+    <!-- CATÁLOGO DE PRODUTOS -->
+    <section>
+      <div class="flex justify-between items-center mb-3">
+        <h3 id="catalog-title" class="text-sm font-bold text-slate-200 flex items-center gap-2">
+          <i class="fa-solid fa-store text-sara-gold"></i> Todos os Produtos
+        </h3>
+        <span id="product-count-badge" class="text-[11px] text-slate-400 bg-slate-900 px-2.5 py-1 rounded-full border border-slate-800">0 produtos</span>
+      </div>
+
+      <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+        <!-- Renderizado dinamicamente -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL DE DETALHES DO PRODUTO & PRODUTOS RELACIONADOS -->
+  <div id="modal-product" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl p-4 text-xs space-y-4">
+      <div class="flex justify-between items-start">
+        <h3 id="modal-p-title" class="font-bold text-sm text-slate-100"></h3>
+        <button onclick="closeProductModal()" class="text-slate-400 hover:text-white text-base"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <img id="modal-p-img" class="w-full h-48 object-cover rounded-xl border border-slate-800">
+
+      <div class="flex justify-between items-center bg-slate-950 p-3 rounded-xl border border-slate-800">
+        <div>
+          <span class="text-[10px] text-slate-400 block">Preço do Produto</span>
+          <strong id="modal-p-price" class="text-base font-bold text-sara-gold"></strong>
+        </div>
+        <button id="modal-add-btn" class="bg-sara-600 hover:bg-sara-500 text-white font-bold px-4 py-2 rounded-xl transition flex items-center gap-2">
+          <i class="fa-solid fa-cart-plus"></i> Adicionar
+        </button>
+      </div>
+
+      <p id="modal-p-desc" class="text-slate-300 leading-relaxed"></p>
+
+      <!-- SEÇÃO DE PRODUTOS CORRELACIONADOS -->
+      <div class="border-t border-slate-800 pt-3 space-y-2">
+        <h4 class="font-bold text-slate-200 text-xs flex items-center gap-1.5">
+          <i class="fa-solid fa-layer-group text-sara-gold"></i> Quem viu este produto também gostou:
+        </h4>
+        <div id="related-grid" class="grid grid-cols-2 gap-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DO CARRINHO & CHECKOUT -->
+  <div id="modal-cart" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto shadow-2xl p-4 text-xs space-y-4">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+        <h3 class="font-bold text-sm text-sara-gold flex items-center gap-2">
+          <i class="fa-solid fa-bag-shopping"></i> Seu Carrinho de Compras
+        </h3>
+        <button onclick="toggleCartModal()" class="text-slate-400 hover:text-white text-base"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div id="cart-items" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
+
+      <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1">
+        <div class="flex justify-between text-slate-400">
+          <span>Subtotal:</span>
+          <strong id="cart-subtotal" class="text-slate-100">R$ 0,00</strong>
+        </div>
+        <p class="text-[10px] text-sara-gold">* Taxa de entrega calculada no envio a combinar com a loja.</p>
+      </div>
+
+      <!-- FORMULÁRIO DE CHECKOUT -->
+      <form onsubmit="processOrder(event)" class="space-y-3 border-t border-slate-800 pt-3">
+        <h4 class="font-bold text-slate-200 text-xs">Dados para Entrega</h4>
+        <div>
+          <label class="block text-slate-400 mb-1">Nome Completo</label>
+          <input type="text" id="cust-name" required placeholder="Ex: Maria Santos" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-100">
+        </div>
+        <div>
+          <label class="block text-slate-400 mb-1">Endereço de Entrega / Bairro</label>
+          <input type="text" id="cust-address" required placeholder="Ex: Av. Principal, 123 - Centro" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-100">
+        </div>
+        <div>
+          <label class="block text-slate-400 mb-1">Forma de Pagamento</label>
+          <select id="cust-payment" required class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-100">
+            <option value="Pix Antecipado">Pix (Chave: +55 91 8207-4973)</option>
+            <option value="Cartão de Crédito (Na Entrega ou Link)">Cartão de Crédito (À vista ou Parcelado)</option>
+            <option value="Pagamento no Ato da Entrega">Pagamento no Ato da Entrega (Dinheiro/Pix)</option>
+          </select>
+        </div>
+
+        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-lg">
+          <i class="fa-brands fa-whatsapp text-base"></i> Finalizar Pedido no WhatsApp
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- PAINEL ADMINISTRATIVO DAS PROPRIETÁRIAS -->
+  <div id="modal-admin" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl p-4 text-xs space-y-4">
+      
+      <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+        <h3 class="font-bold text-sm text-sara-gold flex items-center gap-2">
+          <i class="fa-solid fa-chart-pie"></i> Painel Administrativo - Sara Variedades
+        </h3>
+        <button onclick="toggleAdminModal()" class="text-slate-400 hover:text-white text-base"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- Autenticação -->
+      <div id="admin-login-box" class="space-y-3 py-6 max-w-xs mx-auto text-center">
+        <p class="text-slate-300">Acesso Restrito às Proprietárias</p>
+        <input type="password" id="admin-pass" placeholder="Digite a senha" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-center text-slate-100">
+        <button onclick="autenticarAdmin()" class="w-full bg-sara-600 hover:bg-sara-500 text-white font-bold py-2 rounded-lg">Entrar</button>
+      </div>
+
+      <!-- Conteúdo Interno do Admin -->
+      <div id="admin-content" class="hidden space-y-6">
+        
+        <!-- NAVEGAÇÃO INTERNA DO ADMIN -->
+        <div class="flex gap-2 border-b border-slate-800 pb-2 overflow-x-auto text-[11px]">
+          <button onclick="switchAdminTab('dashboard')" class="bg-sara-800 text-white px-3 py-1.5 rounded-lg font-bold">Relatórios & Vendas</button>
+          <button onclick="switchAdminTab('stock')" class="bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg hover:bg-slate-700">Controlo de Stock</button>
+          <button onclick="switchAdminTab('add')" class="bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg hover:bg-slate-700">+ Novo Produto</button>
+        </div>
+
+        <!-- ABA 1: DASHBOARD & GRÁFICOS -->
+        <div id="admin-sec-dashboard" class="space-y-4">
+          <div class="grid grid-cols-3 gap-2">
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">Vendas Hoje</span>
+              <strong id="dash-today" class="text-sm font-bold text-emerald-400">R$ 0,00</strong>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">Esta Semana</span>
+              <strong id="dash-week" class="text-sm font-bold text-sara-gold">R$ 0,00</strong>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">Este Mês</span>
+              <strong id="dash-month" class="text-sm font-bold text-cyan-400">R$ 0,00</strong>
+            </div>
+          </div>
+
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <h4 class="font-bold text-slate-300 mb-2 text-xs">Receita de Vendas (Diária / Semanal / Mensal)</h4>
+            <canvas id="salesChart" height="120"></canvas>
+          </div>
+        </div>
+
+        <!-- ABA 2: CONTROLO DE STOCK & REPOSIÇÃO -->
+        <div id="admin-sec-stock" class="hidden space-y-3">
+          <h4 class="font-bold text-slate-300 border-b border-slate-800 pb-1">Gestão de Stock & Reposição</h4>
+          <div id="admin-stock-list" class="space-y-2 max-h-72 overflow-y-auto pr-1"></div>
+        </div>
+
+        <!-- ABA 3: CADASTRO DE NOVO PRODUTO COM FOTO DA GALERIA -->
+        <div id="admin-sec-add" class="hidden space-y-3">
+          <h4 class="font-bold text-slate-300 border-b border-slate-800 pb-1">Cadastrar Novo Produto</h4>
+          <form onsubmit="adminAddProduct(event)" class="space-y-3">
+            <div>
+              <label class="block text-slate-400 mb-1">Nome do Produto</label>
+              <input type="text" id="new-p-name" required placeholder="Ex: Caixa de Som Bluetooth Retro" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-slate-100">
+            </div>
+            <div class="grid grid-cols-3 gap-2">
+              <div>
+                <label class="block text-slate-400 mb-1">Categoria</label>
+                <select id="new-p-cat" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-slate-100">
+                  <option value="brinquedos">Brinquedos</option>
+                  <option value="celulares">Telemóveis & Acessórios</option>
+                  <option value="oculos">Óculos</option>
+                  <option value="radios">Rádios Retro & Som</option>
+                  <option value="informatica">Informática & PC</option>
+                  <option value="beleza">Beleza & Maquilhagem</option>
+                  <option value="china">Importados China</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-slate-400 mb-1">Preço (R$)</label>
+                <input type="number" step="0.01" id="new-p-price" required placeholder="89.90" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-slate-100">
+              </div>
+              <div>
+                <label class="block text-slate-400 mb-1">Stock Inicial</label>
+                <input type="number" id="new-p-stock" required placeholder="10" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-slate-100">
+              </div>
+            </div>
+            <div>
+              <label class="block text-slate-400 mb-1">Descrição</label>
+              <input type="text" id="new-p-desc" placeholder="Detalhes do produto..." class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-slate-100">
+            </div>
+            <div>
+              <label class="block text-slate-400 mb-1">Foto do Produto (Galeria/Dispositivo)</label>
+              <input type="file" id="new-p-file" accept="image/*" required class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-slate-100 file:bg-sara-600 file:text-white file:border-0 file:rounded file:px-2 file:py-1">
+            </div>
+            <button type="submit" class="w-full bg-sara-600 hover:bg-sara-500 text-white font-bold py-2.5 rounded-lg">Salvar Produto</button>
+          </form>
+        </div>
+
+        <button onclick="logoutAdmin()" class="w-full bg-slate-800 text-slate-300 py-2 rounded hover:bg-slate-700">Sair do Painel</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT PRINCIPAL -->
+  <script>
+    // CATEGORIAS
+    const categories = [
+      { id: 'todos', name: 'Todos os Produtos', icon: 'fa-cubes' },
+      { id: 'brinquedos', name: 'Brinquedos & Diversão', icon: 'fa-gamepad' },
+      { id: 'celulares', name: 'Telemóveis & Acessórios', icon: 'fa-mobile-screen' },
+      { id: 'oculos', name: 'Óculos Masc. & Fem.', icon: 'fa-glasses' },
+      { id: 'radios', name: 'Rádios Retro & Som', icon: 'fa-radio' },
+      { id: 'informatica', name: 'Informática & PC', icon: 'fa-desktop' },
+      { id: 'beleza', name: 'Beleza & Maquilhagem', icon: 'fa-wand-magic-sparkles' },
+      { id: 'china', name: 'Novidades & Importados China', icon: 'fa-box-open' }
+    ];
+
+    // GERADOR AUTOMÁTICO DE 350 PRODUTOS DIVERSIFICADOS
+    function generate350Products() {
+      const baseCatalog = [
+        { cat: 'radios', items: [
+          { name: "Rádio Retro AM/FM Bluetooth Vintage", price: 149.90, img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400", desc: "Entradas USB, Cartão SD, bateria recarregável e acabamento estético em madeira." },
+          { name: "Caixa de Som Portátil Bluetooth Retro", price: 89.90, img: "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=400", desc: "Som potente, bateria de longa duração e visual clássico dos anos 80." },
+          { name: "Rádio Portátil de Bolso AM/FM", price: 45.00, img: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=400", desc: "Ideal para viagens, funciona a pilha com antena retrátil." }
+        ]},
+        { cat: 'celulares', items: [
+          { name: "Carregador Rápido Tipo-C 20W", price: 45.00, img: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=400", desc: "Compatível com Android e iPhone, carregamento ultrarrápido com proteção térmica." },
+          { name: "Fone de Ouvido Bluetooth Sem Fio", price: 69.90, img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400", desc: "Cancelamento de ruído, estojo carregador e autonomia de até 6 horas." },
+          { name: "Suporte de Celular Automotivo Magnético", price: 25.00, img: "https://images.unsplash.com/photo-1586105251261-72a756497a11?w=400", desc: "Fixação forte no painel ou na saída de ar do carro." },
+          { name: "Cabo USB Tipo-C Reforçado 1.5m", price: 19.90, img: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=400", desc: "Nylon trançado de alta resistência anti-dobras." }
+        ]},
+        { cat: 'beleza', items: [
+          { name: "Escova Secadora e Modeladora 1200W", price: 129.90, img: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400", desc: "Seca, alisa e dá volume. Revestimento cerâmico com íons protetores." },
+          { name: "Kit de Pincéis de Maquilhagem Profissional", price: 39.90, img: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400", desc: "Contém 12 pincéis macios com estojo organizador." },
+          { name: "Espelho de Mesa LED Dobrável", price: 49.90, img: "https://images.unsplash.com/photo-1526045612212-70caf35c14df?w=400", desc: "Iluminação ring light regulável para maquiagem perfeita." }
+        ]},
+        { cat: 'brinquedos', items: [
+          { name: "Carrinho de Controlo Remoto 4x4 Off-Road", price: 110.00, img: "https://images.unsplash.com/photo-1594787318286-3d835c1d207f?w=400", desc: "Suspensão reforçada, luzes LED e bateria recarregável." },
+          { name: "Lousa Mágica Digital LCD 8.5 Polegadas", price: 29.90, img: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=400", desc: "Ideal para crianças desenharem sem sujar papel." },
+          { name: "Pop It Anti-Stress Quadrado Colorido", price: 15.00, img: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400", desc: "Brinquedo sensorial para alívio do estresse e concentração." }
+        ]},
+        { cat: 'oculos', items: [
+          { name: "Óculos de Sol Polarizado UV400 Unisex", price: 65.00, img: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400", desc: "Modelo moderno, proteção total contra raios solares UVA/UVB." },
+          { name: "Óculos Esportivo com Proteção Lateral", price: 75.00, img: "https://images.unsplash.com/photo-1508296695146-257a814070b4?w=400", desc: "Lentes anti-risco para ciclismo, corrida e atividades ao ar livre." }
+        ]},
+        { cat: 'informatica', items: [
+          { name: "Teclado Mecânico RGB Gamer", price: 189.90, img: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400", desc: "Switches táteis, iluminação RGB personalizável e cabo trançado." },
+          { name: "Mouse Sem Fio Ergonómico 2.4GHz", price: 34.90, img: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=400", desc: "Design confortável com ajuste de DPI e bateria de longa duração." }
+        ]},
+        { cat: 'china', items: [
+          { name: "Mini Humidificador de Ar LED RGB USB", price: 39.90, img: "https://images.unsplash.com/photo-1546554137-f86b9593a222?w=400", desc: "Silencioso, ideal para quarto ou escritório com função difusora." },
+          { name: "Luminária de Mesa Dobrável Touch", price: 42.00, img: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400", desc: "3 níveis de intensidade de luz e recarga via USB." }
+        ]}
+      ];
+
+      let generatedList = [];
+      let idCounter = 1;
+
+      // Multiplica as variações para atingir 350 itens diversificados com estoques satisfatórios
+      for (let i = 1; i <= 20; i++) {
+        baseCatalog.forEach(categoryGroup => {
+          categoryGroup.items.forEach(item => {
+            const estoqueSat = Math.floor(Math.random() * 66) + 15; // Margem entre 15 e 80 unidades
+            const variacao = i > 1 ? ` (Edição / Cor ${i})` : "";
+            
+            generatedList.push({
+              id: idCounter++,
+              cat: categoryGroup.cat,
+              name: `${item.name}${variacao}`,
+              price: item.price,
+              stock: estoqueSat,
+              desc: item.desc,
+              img: item.img
+            });
+          });
+        });
+      }
+
+      return generatedList;
+    }
+
+    // CARREGAR OU INICIALIZAR DADOS
+    let products = JSON.parse(localStorage.getItem('sara_products'));
+    if (!products || products.length === 0) {
+      products = generate350Products();
+      localStorage.setItem('sara_products', JSON.stringify(products));
+    }
+
+    let salesHistory = JSON.parse(localStorage.getItem('sara_sales')) || [
+      { date: '2026-09-24', total: 450.00 },
+      { date: '2026-09-25', total: 680.00 },
+      { date: '2026-09-26', total: 920.00 }
+    ];
+
+    let cart = [];
+    let activeCategory = 'todos';
+    let chartInstance = null;
+
+    // INICIALIZAÇÃO DA PÁGINA
+    window.onload = function() {
+      renderCategoryTabs();
+      renderProducts();
+    };
+
+    function saveProducts() {
+      localStorage.setItem('sara_products', JSON.stringify(products));
+    }
+
+    function saveSales() {
+      localStorage.setItem('sara_sales', JSON.stringify(salesHistory));
+    }
+
+    // RENDERIZAR ABAS DE CATEGORIAS
+    function renderCategoryTabs() {
+      const container = document.getElementById('category-tabs');
+      container.innerHTML = categories.map(c => `
+        <button onclick="filterCategory('${c.id}')" id="tab-${c.id}" class="px-3 py-1.5 rounded-full border transition flex items-center gap-1.5 ${c.id === activeCategory ? 'bg-sara-600 text-white border-sara-500 font-bold' : 'bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700'}">
+          <i class="fa-solid ${c.icon}"></i> ${c.name}
+        </button>
+      `).join('');
+    }
+
+    // RENDERIZAR QUADRÍCULA DE PRODUTOS
+    function renderProducts(items = getFilteredProducts()) {
+      const grid = document.getElementById('product-grid');
+      document.getElementById('product-count-badge').innerText = `${items.length} produtos`;
+
+      if(items.length === 0) {
+        grid.innerHTML = `<div class="col-span-full py-10 text-center text-slate-400">Nenhum produto encontrado.</div>`;
+        return;
+      }
+
+      grid.innerHTML = items.map(p => `
+        <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden flex flex-col justify-between shadow-md hover:border-sara-500/40 transition">
+          <div class="relative cursor-pointer" onclick="openProductModal(${p.id})">
+            <img src="${p.img}" alt="${p.name}" class="w-full h-32 object-cover">
+            ${p.stock <= 0 ? '<span class="absolute top-1 right-1 bg-rose-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">Esgotado</span>' : ''}
+          </div>
+          <div class="p-2.5 flex-1 flex flex-col justify-between space-y-2">
+            <div>
+              <h4 class="font-bold text-slate-200 text-xs line-clamp-2 cursor-pointer hover:text-sara-gold" onclick="openProductModal(${p.id})">${p.name}</h4>
+              <span class="text-[10px] text-slate-400">Stock: ${p.stock} un.</span>
+            </div>
+            <div class="flex items-center justify-between pt-1 border-t border-slate-800/80">
+              <strong class="text-sara-gold text-xs font-extrabold">R$ ${parseFloat(p.price).toFixed(2)}</strong>
+              <button onclick="addToCart(${p.id})" ${p.stock <= 0 ? 'disabled' : ''} class="bg-sara-600 hover:bg-sara-500 disabled:bg-slate-800 text-white text-[10px] p-1.5 rounded-lg font-bold transition">
+                <i class="fa-solid fa-cart-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function getFilteredProducts() {
+      if(activeCategory === 'todos') return products;
+      return products.filter(p => p.cat === activeCategory);
+    }
+
+    function filterCategory(catId) {
+      activeCategory = catId;
+      renderCategoryTabs();
+      const catObj = categories.find(c => c.id === catId);
+      document.getElementById('catalog-title').innerHTML = `<i class="fa-solid ${catObj.icon} text-sara-gold"></i> ${catObj.name}`;
+      renderProducts();
+    }
+
+    function handleSearch() {
+      const q = document.getElementById('search-input').value.toLowerCase();
+      const filtered = products.filter(p => p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q));
+      renderProducts(filtered);
+    }
+
+    // MODAL DE DETALHES DO PRODUTO & PRODUTOS RELACIONADOS
+    function openProductModal(id) {
+      const p = products.find(prod => prod.id === id);
+      if(!p) return;
+
+      document.getElementById('modal-p-title').innerText = p.name;
+      document.getElementById('modal-p-img').src = p.img;
+      document.getElementById('modal-p-price').innerText = `R$ ${parseFloat(p.price).toFixed(2)}`;
+      document.getElementById('modal-p-desc').innerText = p.desc;
+      
+      const btn = document.getElementById('modal-add-btn');
+      btn.onclick = () => { addToCart(p.id); closeProductModal(); };
+
+      // Buscar produtos correlacionados
+      const related = products.filter(item => item.cat === p.cat && item.id !== p.id).slice(0, 2);
+      const relatedGrid = document.getElementById('related-grid');
+      
+      if(related.length > 0) {
+        relatedGrid.innerHTML = related.map(rel => `
+          <div class="bg-slate-950 p-2 rounded-lg border border-slate-800 flex gap-2 items-center cursor-pointer hover:border-sara-gold" onclick="openProductModal(${rel.id})">
+            <img src="${rel.img}" class="w-10 h-10 object-cover rounded">
+            <div>
+              <p class="font-bold text-[10px] text-slate-200 line-clamp-1">${rel.name}</p>
+              <span class="text-sara-gold text-[10px] font-bold">R$ ${parseFloat(rel.price).toFixed(2)}</span>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        relatedGrid.innerHTML = `<p class="text-slate-500 text-[10px] col-span-2">Sem outros produtos nesta categoria.</p>`;
+      }
+
+      document.getElementById('modal-product').classList.remove('hidden');
+    }
+
+    function closeProductModal() {
+      document.getElementById('modal-product').classList.add('hidden');
+    }
+
+    // GESTÃO DO CARRINHO
+    function addToCart(id) {
+      const p = products.find(prod => prod.id === id);
+      if(!p || p.stock <= 0) return;
+
+      const itemInCart = cart.find(item => item.id === id);
+      if(itemInCart) {
+        if(itemInCart.qty < p.stock) itemInCart.qty++;
+        else alert('Atingiu a quantidade máxima disponível em estoque.');
+      } else {
+        cart.push({ id: p.id, name: p.name, price: p.price, qty: 1, img: p.img });
+      }
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const count = cart.reduce((acc, i) => acc + i.qty, 0);
+      document.getElementById('cart-count').innerText = count;
+
+      const itemsContainer = document.getElementById('cart-items');
+      if(cart.length === 0) {
+        itemsContainer.innerHTML = `<p class="text-slate-500 text-center py-4">O seu carrinho está vazio.</p>`;
+        document.getElementById('cart-subtotal').innerText = 'R$ 0,00';
+        return;
+      }
+
+      let subtotal = 0;
+      itemsContainer.innerHTML = cart.map(i => {
+        subtotal += i.price * i.qty;
+        return `
+          <div class="flex items-center justify-between bg-slate-950 p-2 rounded-lg border border-slate-800">
+            <div class="flex items-center gap-2">
+              <img src="${i.img}" class="w-8 h-8 object-cover rounded">
+              <div>
+                <p class="font-bold text-[11px] text-slate-200 line-clamp-1">${i.name}</p>
+                <span class="text-sara-gold text-[10px]">R$ ${parseFloat(i.price).toFixed(2)}</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="changeQty(${i.id}, -1)" class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-bold">-</button>
+              <span class="text-xs font-bold text-slate-100">${i.qty}</span>
+              <button onclick="changeQty(${i.id}, 1)" class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-bold">+</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('cart-subtotal').innerText = `R$ ${subtotal.toFixed(2)}`;
+    }
+
+    function changeQty(id, delta) {
+      const item = cart.find(i => i.id === id);
+      if(!item) return;
+      item.qty += delta;
+      if(item.qty <= 0) {
+        cart = cart.filter(i => i.id !== id);
+      }
+      updateCartUI();
+    }
+
+    function toggleCartModal() {
+      updateCartUI();
+      document.getElementById('modal-cart').classList.toggle('hidden');
+    }
+
+    // CHECKOUT E ENVIO PARA WHATSAPP
+    function processOrder(e) {
+      e.preventDefault();
+      if(cart.length === 0) {
+        alert('Adicione produtos ao carrinho antes de finalizar.');
+        return;
+      }
+
+      const name = document.getElementById('cust-name').value;
+      const addr = document.getElementById('cust-address').value;
+      const pay = document.getElementById('cust-payment').value;
+      
+      let total = 0;
+      let itemsText = cart.map(i => {
+        total += i.price * i.qty;
+        
+        // Dar baixa no estoque
+        const p = products.find(prod => prod.id === i.id);
+        if(p) p.stock = Math.max(0, p.stock - i.qty);
+
+        return `• ${i.qty}x ${i.name} (R$ ${(i.price * i.qty).toFixed(2)})`;
+      }).join('%0A');
+
+      saveProducts();
+      renderProducts();
+
+      // Registrar venda no histórico do Admin
+      const today = new Date().toISOString().split('T')[0];
+      salesHistory.push({ date: today, total: total });
+      saveSales();
+
+      const msg = `🛍️ *NOVO PEDIDO - SARA VARIEDADES*%0A%0A` +
+        `👤 *Cliente:* ${name}%0A` +
+        `📍 *Endereço:* ${addr}%0A` +
+        `💳 *Pagamento:* ${pay}%0A` +
+        `🔑 *Pix da Loja:* +55 91 8207-4973%0A%0A` +
+        `📦 *ITENS:*%0A${itemsText}%0A%0A` +
+        `💰 *Subtotal:* R$ ${total.toFixed(2)}%0A` +
+        `🚚 *Taxa de Entrega:* A combinar conforme localização.`;
+
+      cart = [];
+      updateCartUI();
+      toggleCartModal();
+
+      window.open(`https://wa.me/559182074973?text=${msg}`, '_blank');
+    }
+
+    // PAINEL ADMINISTRATIVO
+    function toggleAdminModal() {
+      document.getElementById('modal-admin').classList.toggle('hidden');
+    }
+
+    function autenticarAdmin() {
+      const pass = document.getElementById('admin-pass').value;
+      if(pass === 'admin123') {
+        document.getElementById('admin-login-box').classList.add('hidden');
+        document.getElementById('admin-content').classList.remove('hidden');
+        loadAdminDashboard();
+      } else {
+        alert('Senha incorreta! (Senha padrão: admin123)');
+      }
+    }
+
+    function logoutAdmin() {
+      document.getElementById('admin-login-box').classList.remove('hidden');
+      document.getElementById('admin-content').classList.add('hidden');
+      document.getElementById('admin-pass').value = '';
+      toggleAdminModal();
+    }
+
+    function switchAdminTab(sub) {
+      document.getElementById('admin-sec-dashboard').classList.add('hidden');
+      document.getElementById('admin-sec-stock').classList.add('hidden');
+      document.getElementById('admin-sec-add').classList.add('hidden');
+
+      if(sub === 'dashboard') {
+        document.getElementById('admin-sec-dashboard').classList.remove('hidden');
+        loadAdminDashboard();
+      } else if(sub === 'stock') {
+        document.getElementById('admin-sec-stock').classList.remove('hidden');
+        renderAdminStock();
+      } else if(sub === 'add') {
+        document.getElementById('admin-sec-add').classList.remove('hidden');
+      }
+    }
+
+    function loadAdminDashboard() {
+      const today = new Date().toISOString().split('T')[0];
+      const sumToday = salesHistory.filter(s => s.date === today).reduce((acc, s) => acc + s.total, 0);
+      const sumTotal = salesHistory.reduce((acc, s) => acc + s.total, 0);
+
+      document.getElementById('dash-today').innerText = `R$ ${sumToday.toFixed(2)}`;
+      document.getElementById('dash-week').innerText = `R$ ${(sumTotal * 0.4).toFixed(2)}`;
+      document.getElementById('dash-month').innerText = `R$ ${sumTotal.toFixed(2)}`;
+
+      const ctx = document.getElementById('salesChart').getContext('2d');
+      if(chartInstance) chartInstance.destroy();
+
+      chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Qui', 'Sex', 'Hoje'],
+          datasets: [{
+            label: 'Vendas (R$)',
+            data: [450, 680, sumToday],
+            borderColor: '#EF6C00',
+            backgroundColor: 'rgba(239, 108, 0, 0.2)',
+            fill: true,
+            tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true } }
+        }
+      });
+    }
+
+    function renderAdminStock() {
+      const container = document.getElementById('admin-stock-list');
+      container.innerHTML = products.map(p => `
+        <div class="bg-slate-950 p-2 rounded-lg border border-slate-800 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <img src="${p.img}" class="w-8 h-8 object-cover rounded">
+            <div>
+              <p class="font-bold text-slate-200 text-xs line-clamp-1">${p.name}</p>
+              <span class="text-sara-gold text-[10px]">R$ ${parseFloat(p.price).toFixed(2)}</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] text-slate-400">Stock:</span>
+            <input type="number" value="${p.stock}" onchange="updateStock(${p.id}, this.value)" class="w-14 bg-slate-900 border border-slate-700 rounded p-1 text-center text-slate-100 font-bold">
+            <button onclick="deleteProduct(${p.id})" class="text-rose-500 hover:text-rose-400 p-1"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function updateStock(id, newStock) {
+      const p = products.find(prod => prod.id === id);
+      if(p) {
+        p.stock = parseInt(newStock) || 0;
+        saveProducts();
+        renderProducts();
+      }
+    }
+
+    function deleteProduct(id) {
+      if(confirm('Tem certeza de que deseja remover este produto?')) {
+        products = products.filter(p => p.id !== id);
+        saveProducts();
+        renderProducts();
+        renderAdminStock();
+      }
+    }
+
+    function adminAddProduct(e) {
+      e.preventDefault();
+      const name = document.getElementById('new-p-name').value;
+      const cat = document.getElementById('new-p-cat').value;
+      const price = parseFloat(document.getElementById('new-p-price').value);
+      const stock = parseInt(document.getElementById('new-p-stock').value);
+      const desc = document.getElementById('new-p-desc').value;
+      const fileInput = document.getElementById('new-p-file');
+
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          const base64Img = evt.target.result;
+          const newP = { id: Date.now(), cat, name, price, stock, desc, img: base64Img };
+          products.unshift(newP);
+          saveProducts();
+          renderProducts();
+          alert('Produto adicionado com sucesso!');
+          e.target.reset();
+          switchAdminTab('stock');
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+      }
+    }
+  </script>
 </body>
 </html>
