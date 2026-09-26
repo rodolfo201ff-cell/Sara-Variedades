@@ -5,7 +5,7 @@ const app = express();
 app.use(express.json());
 
 // Configurações do Proprietário e da API WhatsApp
-const TELEFONE_PROPRIETARIO = '5511999999999'; // Número no formato internacional
+const TELEFONE_PROPRIETARIO = '5591982074973'; // Número no formato internacional
 const WHATSAPP_API_URL = 'https://api.seu-provedor-whatsapp.com/send-message';
 const WHATSAPP_API_TOKEN = 'SEU_TOKEN_DE_AUTENTICACAO';
 
