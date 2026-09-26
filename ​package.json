@@ -1,6 +1,7 @@
 {
-  "name": "catalogo-com-whatsapp",
+  "name": "sara-variedades",
   "version": "1.0.0",
+  "description": "Catálogo do WhatsApp Sara Variedades",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
