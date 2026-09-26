@@ -1,45 +1,26 @@
-async function carregarProdutos() {
-  const res = await fetch('/api/produtos');
-  const produtos = await res.json();
+document.addEventListener("DOMContentLoaded", () => {
+  const catalogo = document.getElementById("catalogo");
+  const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
 
-  const container = document.getElementById('catalogo');
-  container.innerHTML = '';
-
-  const disponiveis = produtos.filter(p => p.estoque > 0);
-
-  if (disponiveis.length === 0) {
-    container.innerHTML = '<p style="grid-column: 1/-1; text-align:center;">Nenhum produto disponível no momento.</p>';
+  if (produtos.length === 0) {
+    catalogo.innerHTML = "<p>Nenhum produto cadastrado no momento.</p>";
     return;
   }
 
-  disponiveis.forEach(p => {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <img src="${p.foto}" alt="${p.nome}">
+  catalogo.innerHTML = produtos.map(p => `
+    <div class="card">
+      <img src="${p.foto || 'https://via.placeholder.com/180'}" alt="${p.nome}">
       <h3>${p.nome}</h3>
-      <p>${p.descricao}</p>
-      <div class="preco">R$ ${p.preco.toFixed(2)}</div>
-      <button onclick="comprar(${p.id})">Comprar / Dar Baixa</button>
-    `;
-    container.appendChild(card);
-  });
+      <p class="preco">R$ ${parseFloat(p.preco).toFixed(2)}</p>
+      <p><small>Estoque: ${p.estoque}</small></p>
+      <p>${p.descricao || ''}</p>
+      <button onclick="comprar('${p.nome}')">Comprar via WhatsApp</button>
+    </div>
+  `).join("");
+});
+
+function comprar(nome) {
+  const fone = "5591980000000"; // Substitua pelo seu número do WhatsApp com DDD
+  const mensagem = encodeURIComponent(`Olá! Tenho interesse no produto: ${nome}`);
+  window.open(`https://wa.me/${fone}?text=${mensagem}`, "_blank");
 }
-
-async function comprar(id) {
-  const res = await fetch('/api/produtos/dar-baixa', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id, quantidade: 1 })
-  });
-
-  const data = await res.json();
-  if (data.sucesso) {
-    alert('Pedido realizado! O estoque foi atualizado.');
-    carregarProdutos();
-  } else {
-    alert(data.erro || 'Erro ao processar compra.');
-  }
-}
-
-carregarProdutos();
