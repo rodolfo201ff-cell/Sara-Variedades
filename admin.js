@@ -1,57 +1,49 @@
-const form = document.getElementById('formProduto');
-
-form.addEventListener('submit', async (e) => {
+document.getElementById("formProduto").addEventListener("submit", function (e) {
   e.preventDefault();
 
-  const formData = new FormData();
-  formData.append('id', document.getElementById('prodId').value);
-  formData.append('nome', document.getElementById('nome').value);
-  formData.append('preco', document.getElementById('preco').value);
-  formData.append('estoque', document.getElementById('estoque').value);
-  formData.append('descricao', document.getElementById('descricao').value);
+  const nome = document.getElementById("nome").value;
+  const preco = document.getElementById("preco").value;
+  const estoque = document.getElementById("estoque").value;
+  const descricao = document.getElementById("descricao").value;
+  const fotoInput = document.getElementById("foto");
 
-  const fotoInput = document.getElementById('foto');
-  if (fotoInput.files[0]) {
-    formData.append('foto', fotoInput.files[0]);
+  const salvarNoStorage = (fotoBase64) => {
+    const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
+    produtos.push({ nome, preco, estoque, descricao, foto: fotoBase64 });
+    localStorage.setItem("produtos", JSON.stringify(produtos));
+    alert("Produto salvo com sucesso!");
+    location.reload();
+  };
+
+  if (fotoInput.files && fotoInput.files[0]) {
+    const reader = new FileReader();
+    reader.onload = (e) => salvarNoStorage(e.target.result);
+    reader.readAsDataURL(fotoInput.files[0]);
+  } else {
+    salvarNoStorage("");
   }
-
-  await fetch('/api/produtos', {
-    method: 'POST',
-    body: formData
-  });
-
-  form.reset();
-  document.getElementById('prodId').value = '';
-  carregarProdutosAdmin();
 });
 
-async function carregarProdutosAdmin() {
-  const res = await fetch('/api/produtos');
-  const produtos = await res.json();
+function carregarListaAdmin() {
+  const lista = document.getElementById("listaAdmin");
+  const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
 
-  const container = document.getElementById('listaAdmin');
-  container.innerHTML = '';
-
-  produtos.forEach(p => {
-    const div = document.createElement('div');
-    div.className = 'item-admin';
-    div.innerHTML = `
-      <img src="${p.foto}" alt="${p.nome}">
+  lista.innerHTML = produtos.map((p, index) => `
+    <div class="item-admin">
+      <img src="${p.foto || 'https://via.placeholder.com/50'}" alt="${p.nome}">
       <div>
-        <strong>${p.nome}</strong><br>
-        R$ ${p.preco.toFixed(2)} | Qtd: ${p.estoque}
+        <strong>${p.nome}</strong> - R$ ${parseFloat(p.preco).toFixed(2)} (${p.estoque} un)
       </div>
-      <button class="btn-del" onclick="deletar(${p.id})">Excluir</button>
-    `;
-    container.appendChild(div);
-  });
+      <button class="btn-del" onclick="removerProduto(${index})">Excluir</button>
+    </div>
+  `).join("");
 }
 
-async function deletar(id) {
-  if (confirm('Deseja excluir este produto?')) {
-    await fetch(`/api/produtos/${id}`, { method: 'DELETE' });
-    carregarProdutosAdmin();
-  }
+function removerProduto(index) {
+  const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
+  produtos.splice(index, 1);
+  localStorage.setItem("produtos", JSON.stringify(produtos));
+  carregarListaAdmin();
 }
 
-carregarProdutosAdmin();
+document.addEventListener("DOMContentLoaded", carregarListaAdmin);
