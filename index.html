@@ -55,8 +55,9 @@
       </button>
 
       <!-- Painel Admin -->
-      <button onclick="toggleAdminModal()" class="p-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-slate-700" title="Painel da Proprietária">
+      <button onclick="toggleAdminModal()" class="p-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-slate-700 relative" title="Painel da Proprietária">
         <i class="fa-solid fa-chart-line text-lg"></i>
+        <span id="admin-alert-badge" class="hidden absolute -top-1 -right-1 bg-rose-600 w-3 h-3 rounded-full animate-ping"></span>
       </button>
     </div>
   </header>
@@ -159,7 +160,6 @@
         <div>
           <label class="block text-slate-400 mb-1 font-semibold">Selecione o seu Bairro / Região:</label>
           <select id="cust-bairro" onchange="updateCartUI()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-100 font-medium">
-            <!-- Belém Bairros -->
             <option value="Guamá|15">Belém - Guamá (Taxa: R$ 15,00)</option>
             <option value="Pedreira|15">Belém - Pedreira (Taxa: R$ 15,00)</option>
             <option value="Marco|15">Belém - Marco (Taxa: R$ 15,00)</option>
@@ -179,7 +179,6 @@
             <option value="Icoaraci|25">Belém - Icoaraci (Taxa: R$ 25,00)</option>
             <option value="Outeiro|30">Belém - Outeiro (Taxa: R$ 30,00)</option>
 
-            <!-- Região Metropolitana -->
             <option value="Ananindeua - Centro|20">Ananindeua - Centro (Taxa: R$ 20,00)</option>
             <option value="Ananindeua - Cidade Nova|20">Ananindeua - Cidade Nova (Taxa: R$ 20,00)</option>
             <option value="Ananindeua - Coqueiro|20">Ananindeua - Coqueiro (Taxa: R$ 20,00)</option>
@@ -261,7 +260,10 @@
         <!-- NAVEGAÇÃO INTERNA DO ADMIN -->
         <div class="flex gap-2 border-b border-slate-800 pb-2 overflow-x-auto text-[11px]">
           <button onclick="switchAdminTab('dashboard')" class="bg-sara-800 text-white px-3 py-1.5 rounded-lg font-bold">Relatórios & Vendas</button>
-          <button onclick="switchAdminTab('stock')" class="bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg hover:bg-slate-700">Controlo de Stock</button>
+          <button onclick="switchAdminTab('stock')" class="bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg hover:bg-slate-700 relative">
+            Controlo de Stock
+            <span id="stock-tab-badge" class="hidden absolute -top-1 -right-1 bg-rose-600 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center">!</span>
+          </button>
           <button onclick="switchAdminTab('add')" class="bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg hover:bg-slate-700">+ Novo Produto</button>
         </div>
 
@@ -290,7 +292,10 @@
 
         <!-- ABA 2: CONTROLO DE STOCK & REPOSIÇÃO -->
         <div id="admin-sec-stock" class="hidden space-y-3">
-          <h4 class="font-bold text-slate-300 border-b border-slate-800 pb-1">Gestão de Stock & Reposição</h4>
+          <div class="flex justify-between items-center border-b border-slate-800 pb-1">
+            <h4 class="font-bold text-slate-300">Gestão de Stock & Reposição</h4>
+            <span class="text-[10px] text-slate-400">🚨 Itens em vermelho: Stock Baixo (≤ 5 un.)</span>
+          </div>
           <div id="admin-stock-list" class="space-y-2 max-h-72 overflow-y-auto pr-1"></div>
         </div>
 
@@ -308,7 +313,7 @@
                 <select id="new-p-cat" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-slate-100">
                   <option value="brinquedos">Brinquedos</option>
                   <option value="celulares">Telemóveis & Acessórios</option>
-                  <option value="oculos">Óculos</option>
+                  <option value="oculos font-normal">Óculos</option>
                   <option value="radios">Rádios Retro & Som</option>
                   <option value="informatica">Informática & PC</option>
                   <option value="beleza">Beleza & Maquilhagem</option>
@@ -344,6 +349,22 @@
 
   <!-- JAVASCRIPT PRINCIPAL -->
   <script>
+    // SINAL SONORO DE ALERTA DE ESTOQUE BAIXO (WEB AUDIO API)
+    function playLowStockBeep() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime); // Tom Bip 880Hz
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.3); // Duração 300ms
+      } catch (e) { console.log('Audio bip:', e); }
+    }
+
     // CATEGORIAS
     const categories = [
       { id: 'todos', name: 'Todos os Produtos', icon: 'fa-cubes' },
@@ -456,14 +477,30 @@
     window.onload = function() {
       renderCategoryTabs();
       renderProducts();
+      checkGlobalLowStockAlert();
     };
 
     function saveProducts() {
       localStorage.setItem('sara_products', JSON.stringify(products));
+      checkGlobalLowStockAlert();
     }
 
     function saveSales() {
       localStorage.setItem('sara_sales', JSON.stringify(salesHistory));
+    }
+
+    function checkGlobalLowStockAlert() {
+      const lowStockItems = products.filter(p => p.stock <= 5);
+      const alertBadge = document.getElementById('admin-alert-badge');
+      const stockBadge = document.getElementById('stock-tab-badge');
+
+      if (lowStockItems.length > 0) {
+        if (alertBadge) alertBadge.classList.remove('hidden');
+        if (stockBadge) stockBadge.classList.remove('hidden');
+      } else {
+        if (alertBadge) alertBadge.classList.add('hidden');
+        if (stockBadge) stockBadge.classList.add('hidden');
+      }
     }
 
     function renderCategoryTabs() {
@@ -490,12 +527,12 @@
         <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden flex flex-col justify-between shadow-md hover:border-sara-500/40 transition">
           <div class="relative cursor-pointer h-32" onclick="openProductModal(${p.id})">
             ${imgContent}
-            ${p.stock <= 0 ? '<span class="absolute top-1 right-1 bg-rose-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">Esgotado</span>' : ''}
+            ${p.stock <= 0 ? '<span class="absolute top-1 right-1 bg-rose-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">Esgotado</span>' : (p.stock <= 5 ? '<span class="absolute top-1 right-1 bg-amber-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded animate-pulse">Últimas Unidades</span>' : '')}
           </div>
           <div class="p-2.5 flex-1 flex flex-col justify-between space-y-2">
             <div>
               <h4 class="font-bold text-slate-200 text-xs line-clamp-2 cursor-pointer hover:text-sara-gold" onclick="openProductModal(${p.id})">${p.name}</h4>
-              <span class="text-[10px] text-slate-400">Stock: ${p.stock} un.</span>
+              <span class="text-[10px] ${p.stock <= 5 ? 'text-rose-400 font-bold' : 'text-slate-400'}">Stock: ${p.stock} un.</span>
             </div>
             <div class="flex items-center justify-between pt-1 border-t border-slate-800/80">
               <strong class="text-sara-gold text-xs font-extrabold">R$ ${parseFloat(p.price).toFixed(2)}</strong>
@@ -617,9 +654,8 @@
         `;
       }).join('');
 
-      // Calcular Taxa e Total
-      const bairroVal = document.getElementById('cust-bairro').value.split('|');
-      const taxaVal = parseFloat(bairroVal[1]) || 0;
+      const bairroInfo = document.getElementById('cust-bairro').value.split('|');
+      const taxaVal = parseFloat(bairroInfo[1]) || 0;
       const totalGeral = subtotal + taxaVal;
 
       document.getElementById('cart-subtotal').innerText = `R$ ${subtotal.toFixed(2)}`;
@@ -642,7 +678,7 @@
       document.getElementById('modal-cart').classList.toggle('hidden');
     }
 
-    // CHECKOUT FORMATADO EXATAMENTE CONFORME A SOLICITAÇÃO DO BRUNO
+    // CHECKOUT E VERIFICAÇÃO DE ESTOQUE BAIXO PARA AVISO NO WHATSAPP
     function processOrder(e) {
       e.preventDefault();
       if(cart.length === 0) {
@@ -659,12 +695,19 @@
       const taxaVal = parseFloat(bairroInfo[1]) || 0;
       
       let subtotal = 0;
+      let lowStockAlertText = "";
+
       let itemsListText = cart.map(i => {
         subtotal += i.price * i.qty;
         
         // Dar baixa no estoque
         const p = products.find(prod => prod.id === i.id);
-        if(p) p.stock = Math.max(0, p.stock - i.qty);
+        if(p) {
+          p.stock = Math.max(0, p.stock - i.qty);
+          if (p.stock <= 5) {
+            lowStockAlertText += `• ${p.name} resta(m) apenas ${p.stock} un.!%0A`;
+          }
+        }
 
         return `${i.qty} - ${i.name} de ${i.price.toFixed(2)}`;
       }).join('%0A');
@@ -678,8 +721,7 @@
       salesHistory.push({ date: today, total: totalGeral });
       saveSales();
 
-      // Estrutura EXATA do Bruno
-      const msg = `${itemsListText}%0A%0A` +
+      let msg = `${itemsListText}%0A%0A` +
         `Taxa de entrega - ${taxaVal.toFixed(2)} ${bairroNome}%0A%0A` +
         `Total - ${totalGeral.toFixed(2)}%0A%0A` +
         `Chave pix CNPJ - 22054201000295%0A%0A` +
@@ -687,6 +729,11 @@
         `📍 *Endereço:* ${addr}%0A` +
         `👤 *Cliente:* ${name}%0A` +
         `💳 *Forma de Pagamento:* ${pay}`;
+
+      // SE HOUVER PRODUTO COM ESTOQUE CRÍTICO, ADICIONA ALERTA NO FINAL DA MENSAGEM
+      if (lowStockAlertText !== "") {
+        msg += `%0A%0A⚠️ *ALERTA DE ESTOQUE BAIXO!*%0A${lowStockAlertText}`;
+      }
 
       cart = [];
       updateCartUI();
@@ -769,26 +816,39 @@
 
     function renderAdminStock() {
       const container = document.getElementById('admin-stock-list');
+      let lowStockCount = 0;
+
       container.innerHTML = products.map(p => {
+        const isLow = p.stock <= 5;
+        if (isLow) lowStockCount++;
+
         const miniImg = p.img ? `<img src="${p.img}" class="w-8 h-8 object-cover rounded">` : `<div class="w-8 h-8 rounded bg-slate-800 flex items-center justify-center text-sara-gold"><i class="fa-solid ${p.icon || 'fa-box'} text-xs"></i></div>`;
         return `
-        <div class="bg-slate-950 p-2 rounded-lg border border-slate-800 flex items-center justify-between">
+        <div class="p-2 rounded-lg border flex items-center justify-between ${isLow ? 'bg-rose-950/40 border-rose-600/80 animate-pulse' : 'bg-slate-950 border-slate-800'}">
           <div class="flex items-center gap-2">
             ${miniImg}
             <div>
               <p class="font-bold text-slate-200 text-xs line-clamp-1">${p.name}</p>
-              <span class="text-sara-gold text-[10px]">R$ ${parseFloat(p.price).toFixed(2)}</span>
+              <div class="flex items-center gap-2">
+                <span class="text-sara-gold text-[10px]">R$ ${parseFloat(p.price).toFixed(2)}</span>
+                ${isLow ? '<span class="text-rose-400 font-extrabold text-[9px] bg-rose-900/80 px-1.5 py-0.5 rounded">⚠️ ESTOQUE CRÍTICO</span>' : ''}
+              </div>
             </div>
           </div>
           <div class="flex items-center gap-1.5">
             <button onclick="triggerPhotoUpload(${p.id})" class="bg-sara-700 hover:bg-sara-600 text-white text-[10px] px-2 py-1 rounded font-bold transition flex items-center gap-1">
               <i class="fa-solid fa-camera"></i> Foto
             </button>
-            <input type="number" value="${p.stock}" onchange="updateStock(${p.id}, this.value)" class="w-12 bg-slate-900 border border-slate-700 rounded p-1 text-center text-slate-100 font-bold text-xs">
+            <input type="number" value="${p.stock}" onchange="updateStock(${p.id}, this.value)" class="w-12 ${isLow ? 'bg-rose-900 text-white border-rose-500' : 'bg-slate-900 text-slate-100 border-slate-700'} border rounded p-1 text-center font-bold text-xs">
             <button onclick="deleteProduct(${p.id})" class="text-rose-500 hover:text-rose-400 p-1"><i class="fa-solid fa-trash"></i></button>
           </div>
         </div>
       `}).join('');
+
+      // TOCAR SINAL SONORO SE HOUVER ESTOQUE BAIXO AO ENTRAR
+      if (lowStockCount > 0) {
+        playLowStockBeep();
+      }
     }
 
     function triggerPhotoUpload(id) {
